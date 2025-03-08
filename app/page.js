@@ -1,4 +1,4 @@
-import Image from "next/image";
+import {MovieSection} from "@/app/components/movie-section";
 
 // pages/index.js
 export default function Home() {
@@ -59,5 +59,3 @@ export default function Home() {
     );
 }
 
-import {Card} from './components/Card';
-import {MovieSection} from "@/app/components/movie-section";
