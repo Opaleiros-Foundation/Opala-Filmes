@@ -12,13 +12,13 @@ export default function Page({params}) {
         title: 'Maraya',
         description: 'TIn a forgotten town, an ancient mansion stood, its walls covered in ivy and mystery. Whispers echoed through its empty halls, hinting at secrets buried for centuries. One stormy night, a lone traveler stepped inside, unaware that the past was waiting for him.',
         rating: 5,
-        watched: true
+        watched: false
     }
     return (
         <div className="flex flex-col">
             <MovieShow movieData={movieData} />
             <div className="flex justify-center mt-6">
-                <MovieShowButtons onVoteClickButton={() => {}} onWatchClickButton={() => {}}/>
+                <MovieShowButtons onVoteClickButton={() => {}} onWatchClickButton={() => {}} wasWatched={movieData.watched} />
             </div>
         </div>
     )
