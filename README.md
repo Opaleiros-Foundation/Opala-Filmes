@@ -28,7 +28,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
         title: 'Mariah alcolatra',
         description: 'This is a brief description of the first card.',
         rating: 0,
-        watched: true
+        watched: true,
+        votesNumber: 0
     },
     {
         id: 2,
@@ -36,7 +37,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
         title: 'Maraya',
         description: 'This is a brief description of the second card.',
         rating: 0,
-        watched: false
+        watched: false,
+        votesNumber: 0
     },
     {
         id: 3,
@@ -44,7 +46,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
         title: 'Eduarda',
         description: 'This is a brief description of the third card.',
         rating: 0,
-        watched: true
+        watched: true,
+        votesNumber: 0
     },
 ]
 ```
