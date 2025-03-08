@@ -11,7 +11,7 @@ function classNames(...classes) {
 }
 
 
-export const NavBar = ({navigation}) => {
+export const NavBar = ({navigation, onClick}) => {
     return (
         <Disclosure as="nav" className="bg-gray-800">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -55,6 +55,7 @@ export const NavBar = ({navigation}) => {
                     </div>
                     <button
                         className="flex items-center justify-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-500 rounded-md shadow-md transition duration-200 cursor-pointer"
+                        onClick={onClick}
                     >
                         <span className="text-lg mr-2">+</span>
                         <span>Adicionar</span>

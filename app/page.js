@@ -2,11 +2,13 @@
 import {MovieSection} from "@/app/components/movie-section";
 import {NavBar} from "@/app/components/navbar/NavBar";
 import {useEffect, useState} from "react";
+import {SaveMovieModal} from "@/app/components/modal/SaveMovieModal";
 
 export default function Home() {
     const [isWatchedMovies, setWatchedMovies] = useState(false);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
+    const [isCreateMovieModalOpen, setCreateMovieModalOpen] = useState(false);
 
     useEffect(() => {
         // api call
@@ -86,10 +88,11 @@ export default function Home() {
 
     return (
         <div>
-            <NavBar navigation={navigation}/>
+            <NavBar navigation={navigation} onClick={() => setCreateMovieModalOpen(true)}/>
             <div className="mt-6">
                 <MovieSection cardsData={filteredMovies} tittle={isWatchedMovies ? "Assistidos": "Para assistir"}/>
             </div>
+            <SaveMovieModal isOpen={isCreateMovieModalOpen} onClose={() =>setCreateMovieModalOpen(false)} onSubmit={()=> {}}/>
         </div>
     );
 }
