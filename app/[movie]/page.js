@@ -126,7 +126,7 @@ export default function Page({params}) {
     return (
         <div className="flex flex-col">
             {alertMessage && (
-                <Alert alertMessage={alertMessage} isSuccess={true}/>
+                <Alert alertMessage={alertMessage} isSuccess={!isError}/>
             )}
 
             <MovieShow movieData={currentMovie}/>

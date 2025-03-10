@@ -3,9 +3,9 @@ import {MovieSection} from "@/app/components/movie-section";
 import {NavBar} from "@/app/components/navbar/NavBar";
 import {useEffect, useState} from "react";
 import {SaveMovieModal} from "@/app/components/modal/SaveMovieModal";
-import {ref, get, set} from 'firebase/database'
+import {get, ref, set} from 'firebase/database'
 import {database} from "@/app/firebase/firebase";
-
+import {Alert} from "@/app/components/alert/Alert";
 
 
 export default function Home() {
@@ -13,26 +13,24 @@ export default function Home() {
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [isCreateMovieModalOpen, setCreateMovieModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         // api call
         getMovies().then((result) => {
-            console.log(result);
             const moviesArray = Object.entries(result).map(([key, value]) => ({
                 id: key,
                 ...value
             }));
             setMovies(moviesArray)
         }).catch((e) => console.log(e))
-    }, []);
+    }, [alertMessage]);
 
     async function getMovies() {
         const movieRef = ref(database, 'movies')
         const snapshot = await get(movieRef)
-        const movies = snapshot.val();
-
-        console.log(JSON.stringify(movies, null, 2));
-        return movies;
+        return snapshot.val();
     }
 
     useEffect(() => {
@@ -64,15 +62,28 @@ export default function Home() {
             }
             const movieRef = ref(database, `movies/${movieUuid}`);
             await set(movieRef, movieToSave);
-            console.log(movieToSave);
-        }catch (e) {
+            setIsError(false);
+            setAlertMessage("Filme criado com sucesso!");
+
+            setTimeout(() => setAlertMessage(""), 3000);
+        } catch (e) {
+            setIsError(true);
+            setAlertMessage("Erro ao criar filme!");
+
+            setTimeout(() => setAlertMessage(""), 3000);
             console.log(e)
+        } finally {
+            setCreateMovieModalOpen(false);
+
         }
     }
 
 
     return (
-        <div>
+        <div className="flex flex-col">
+            {alertMessage && (
+                <Alert alertMessage={alertMessage} isSuccess={!isError}/>
+            )}
             <NavBar navigation={navigation} onClick={() => setCreateMovieModalOpen(true)}/>
             <div className="mt-6">
                 <MovieSection cardsData={filteredMovies} tittle={isWatchedMovies ? "Assistidos" : "Para assistir"}/>
