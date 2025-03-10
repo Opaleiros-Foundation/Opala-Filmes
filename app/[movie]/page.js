@@ -5,6 +5,7 @@ import {use, useEffect, useState} from 'react'
 import {Modal} from "@/app/components/modal/Modal";
 import {get, ref, set} from "firebase/database";
 import {database} from "@/app/firebase/firebase";
+import {Alert} from "@/app/components/alert/Alert";
 
 export default function Page({params}) {
     const resolvedParams = use(params)
@@ -12,6 +13,8 @@ export default function Page({params}) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedValue, setSelectedValue] = useState(null);
     const [currentMovie, setCurrentMovie] = useState({})
+    const [alertMessage, setAlertMessage] = useState("");
+    const [isError, setIsError] = useState(false);
 
     async function getMovie() {
         const movieRef = ref(database, `movies/${movie}`)
@@ -27,7 +30,7 @@ export default function Page({params}) {
         getMovie().then((movie) => {
             setCurrentMovie(movie)
         }).catch((e) => console.log(e))
-    }, [movie])
+    }, [movie, alertMessage])
     const images = [
         {
             id: 1,
@@ -61,15 +64,18 @@ export default function Page({params}) {
         const newRating = getAverage(value, currentMovie.votes, currentMovie.rating)
         saveVote(currentMovie, newRating).then((result) => {
             console.log(result);
-        }).catch((e) => {
-            console.log(e);
         })
         console.log("Selected Value: ", value);
     };
 
     const getAverage = (value, votes, currentRating) => {
-        return votes > 0 ? (value + currentRating) / votes : 0;
+        if (votes <= 0) return Math.max(0, Math.min(5, value));
+
+        const average = (value + currentRating) / votes;
+
+        return Math.max(0, Math.min(5, parseFloat(average.toFixed(1))));
     };
+
 
     const saveVote = async (movieData, newRating) => {
         console.log(JSON.stringify(movieData, null, 2))
@@ -84,6 +90,8 @@ export default function Page({params}) {
             console.log(movieToSave);
         } catch (e) {
             console.log(e)
+        } finally {
+            setIsModalOpen(false)
         }
     }
 
@@ -106,12 +114,21 @@ export default function Page({params}) {
             const movieRef = ref(database, `movies/${movieData.uuid}`);
             await set(movieRef, movieData);
             console.log(movieData);
+            setIsError(false);
+            setAlertMessage("Filme atualizado com sucesso!");
+
+            setTimeout(() => setAlertMessage(""), 3000);
         } catch (e) {
             console.log(e)
+            setTimeout(() => setAlertMessage(""), 3000);
         }
     }
     return (
         <div className="flex flex-col">
+            {alertMessage && (
+                <Alert alertMessage={alertMessage} isSuccess={true}/>
+            )}
+
             <MovieShow movieData={currentMovie}/>
             <div className="flex justify-center mt-6">
                 <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)} onWatchClickButton={() => updateToWatched(currentMovie)} wasWatched={currentMovie.watched}/>
