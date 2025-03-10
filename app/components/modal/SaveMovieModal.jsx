@@ -22,7 +22,7 @@ export const SaveMovieModal = ({isOpen, onClose, onSubmit}) => {
                                       Adicione um filme na lista
                                   </DialogTitle>
                                   <div className="p-4 overflow-x-auto flex space-x-4">
-                                      <SaveMovieForm onSubmit={({ title, description, imageUrl, watched }) => console.log(title)} />
+                                      <SaveMovieForm onSubmit={onSubmit} />
                                   </div>
                               </div>
                           </div>

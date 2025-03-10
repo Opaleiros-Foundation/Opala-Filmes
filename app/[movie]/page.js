@@ -1,23 +1,33 @@
 'use client'
 import {MovieShow} from "@/app/components/movie-show";
 import {MovieShowButtons} from "@/app/components/movie-show-buttons";
-import {use, useState} from 'react'
+import {use, useEffect, useState} from 'react'
 import {Modal} from "@/app/components/modal/Modal";
+import {get, ref, set} from "firebase/database";
+import {database} from "@/app/firebase/firebase";
 
 export default function Page({params}) {
     const resolvedParams = use(params)
     const {movie} = resolvedParams
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedValue, setSelectedValue] = useState(null);
+    const [currentMovie, setCurrentMovie] = useState({})
 
-    const movieData = {
-        id: movie.id,
-        image: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
-        title: 'Maraya',
-        description: 'TIn a forgotten town, an ancient mansion stood, its walls covered in ivy and mystery. Whispers echoed through its empty halls, hinting at secrets buried for centuries. One stormy night, a lone traveler stepped inside, unaware that the past was waiting for him.',
-        rating: 5,
-        watched: false
+    async function getMovie() {
+        const movieRef = ref(database, `movies/${movie}`)
+        const snapshot = await get(movieRef)
+        const movies = snapshot.val();
+
+
+        console.log(JSON.stringify(movies, null, 2));
+        return movies;
     }
+
+    useEffect(() => {
+        getMovie().then((movie) => {
+            setCurrentMovie(movie)
+        }).catch((e) => console.log(e))
+    }, [movie])
     const images = [
         {
             id: 1,
@@ -47,14 +57,64 @@ export default function Page({params}) {
     ];
     const handleImageClick = (value) => {
         setSelectedValue(value);
+        console.log(JSON.stringify(currentMovie))
+        const newRating = getAverage(value, currentMovie.votes, currentMovie.rating)
+        saveVote(currentMovie, newRating).then((result) => {
+            console.log(result);
+        }).catch((e) => {
+            console.log(e);
+        })
         console.log("Selected Value: ", value);
     };
+
+    const getAverage = (value, votes, currentRating) => {
+        return votes > 0 ? (value + currentRating) / votes : 0;
+    };
+
+    const saveVote = async (movieData, newRating) => {
+        console.log(JSON.stringify(movieData, null, 2))
+        console.log(newRating)
+        try {
+            const movieToSave = {
+                ...movieData,
+                rating: newRating,
+                votes: movieData.votes + 1
+            }
+            await saveChanges(movieToSave)
+            console.log(movieToSave);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const updateToWatched = async(movieData) => {
+        try {
+            const movieToSave = {
+               ...movieData,
+                watched: true,
+            }
+            await saveChanges(movieToSave)
+            console.log(movieToSave);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+
+    const saveChanges = async (movieData) => {
+        try {
+            const movieRef = ref(database, `movies/${movieData.uuid}`);
+            await set(movieRef, movieData);
+            console.log(movieData);
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <div className="flex flex-col">
-            <MovieShow movieData={movieData}/>
+            <MovieShow movieData={currentMovie}/>
             <div className="flex justify-center mt-6">
-                <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)} onWatchClickButton={() => {
-                }} wasWatched={movieData.watched}/>
+                <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)} onWatchClickButton={() => updateToWatched(currentMovie)} wasWatched={currentMovie.watched}/>
             </div>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                    onSelectValue={(value) => handleImageClick(value)} images={images}/>

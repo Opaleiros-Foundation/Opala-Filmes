@@ -12,9 +12,9 @@ export const MovieSection = ({cardsData, tittle}) => {
                     </h1>
                 )}
                 {cardsData.map(card => (
-                    <Link href={`/${card.id}`} key={card.id}>
+                    <Link href={`/${card.uuid}`} key={card.uuid}>
                         <Card
-                            key={card.id}
+                            key={card.uuid}
                             image={card.image}
                             title={card.title}
                             description={card.description}
