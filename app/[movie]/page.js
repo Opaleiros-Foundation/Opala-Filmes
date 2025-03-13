@@ -34,27 +34,27 @@ export default function Page({params}) {
     const images = [
         {
             id: 1,
-            src: 'https://i.pinimg.com/originals/e4/7f/a4/e47fa4eb123ce9f7ceb819674d8b4dc2.png',
+            src: 'https://media.discordapp.net/attachments/1317567528397963356/1347341850322931772/Screenshot_from_2025-03-06_19-22-01.png?ex=67d40b21&is=67d2b9a1&hm=ae886eb604240571f67b5498c9c93b8089fa70d0ce0d279a538fccb886fa6a5f&=&format=webp&quality=lossless',
             value: 1
         },
         {
             id: 2,
-            src: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
+            src: 'https://media.discordapp.net/attachments/1152615149514010674/1348106875098366027/image.png?ex=67d4309d&is=67d2df1d&hm=7ee8cdef49097ad7219ea0a7c0cb2730a7cf9b3a4fa9ffac7ea2e6f256a4202d&=&format=webp&quality=lossless',
             value: 2
         },
         {
             id: 3,
-            src: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
+            src: 'https://media.discordapp.net/attachments/1317567528397963356/1348119747216277514/Screenshot_from_2025-03-08_22-51-53.png?ex=67d393da&is=67d2425a&hm=da6187e93a2930504b2fa4a24e1f8fa3b4a3d78dac04cb4c18a9ead2a5ee0492&=&format=webp&quality=lossless',
             value: 3
         },
         {
             id: 4,
-            src: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
+            src: 'https://media.discordapp.net/attachments/1317567528397963356/1342176467265519626/image.png?ex=67d3b57e&is=67d263fe&hm=ef1d5814374fced217528d1efbdc4d1da719a80b3fe555699b7adc27cb86df25&=&format=webp&quality=lossless',
             value: 4
         },
         {
             id: 5,
-            src: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
+            src: 'https://media.discordapp.net/attachments/1317567528397963356/1349739864165318717/image.png?ex=67d432b4&is=67d2e134&hm=ebfa8b7eb1b28a6e19a95082ede9765be1ec3d733d78ebd8824c6aab0c79208d&=&format=webp&quality=lossless',
             value: 5
         },
     ];
@@ -71,7 +71,7 @@ export default function Page({params}) {
     const getAverage = (value, votes, currentRating) => {
         if (votes <= 0) return Math.max(0, Math.min(5, value));
 
-        const average = (value + currentRating) / votes;
+        const average = (value + currentRating) / votes + 1;
 
         return Math.max(0, Math.min(5, parseFloat(average.toFixed(1))));
     };
