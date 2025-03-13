@@ -72,11 +72,11 @@ export default function Page({params}) {
     const getAverage = (value, votes, currentRating) => {
         if (votes <= 0) return Math.max(0, Math.min(5, value));
 
-        const average = (value + currentRating) / votes + 1;
+        const totalScore = currentRating * votes + value;
+        const average = totalScore / (votes + 1);
 
         return Math.max(0, Math.min(5, parseFloat(average.toFixed(1))));
     };
-
 
     const saveVote = async (movieData, newRating) => {
         console.log(JSON.stringify(movieData, null, 2))
@@ -96,10 +96,10 @@ export default function Page({params}) {
         }
     }
 
-    const updateToWatched = async(movieData) => {
+    const updateToWatched = async (movieData) => {
         try {
             const movieToSave = {
-               ...movieData,
+                ...movieData,
                 watched: true,
             }
             await saveChanges(movieToSave)
@@ -126,14 +126,17 @@ export default function Page({params}) {
     }
     return (
         <div className="flex flex-col">
-            <NavBar navigation={[]} onClick={() => {}} isHome={false}/>
+            <NavBar navigation={[]} onClick={() => {
+            }} isHome={false}/>
             {alertMessage && (
                 <Alert alertMessage={alertMessage} isSuccess={!isError}/>
             )}
 
             <MovieShow movieData={currentMovie}/>
             <div className="flex justify-center mt-6">
-                <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)} onWatchClickButton={() => updateToWatched(currentMovie)} wasWatched={currentMovie.watched}/>
+                <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)}
+                                  onWatchClickButton={() => updateToWatched(currentMovie)}
+                                  wasWatched={currentMovie.watched}/>
             </div>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                    onSelectValue={(value) => handleImageClick(value)} images={images}/>
