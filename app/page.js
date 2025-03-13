@@ -84,7 +84,7 @@ export default function Home() {
             {alertMessage && (
                 <Alert alertMessage={alertMessage} isSuccess={!isError}/>
             )}
-            <NavBar navigation={navigation} onClick={() => setCreateMovieModalOpen(true)}/>
+            <NavBar navigation={navigation} onClick={() => setCreateMovieModalOpen(true)} isHome={true}/>
             <div className="mt-6">
                 <MovieSection cardsData={filteredMovies} tittle={isWatchedMovies ? "Assistidos" : "Para assistir"}/>
             </div>

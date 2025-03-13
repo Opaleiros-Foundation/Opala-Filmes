@@ -6,6 +6,7 @@ import {Modal} from "@/app/components/modal/Modal";
 import {get, ref, set} from "firebase/database";
 import {database} from "@/app/firebase/firebase";
 import {Alert} from "@/app/components/alert/Alert";
+import {NavBar} from "@/app/components/navbar/NavBar";
 
 export default function Page({params}) {
     const resolvedParams = use(params)
@@ -125,6 +126,7 @@ export default function Page({params}) {
     }
     return (
         <div className="flex flex-col">
+            <NavBar navigation={[]} onClick={() => {}} isHome={false}/>
             {alertMessage && (
                 <Alert alertMessage={alertMessage} isSuccess={!isError}/>
             )}

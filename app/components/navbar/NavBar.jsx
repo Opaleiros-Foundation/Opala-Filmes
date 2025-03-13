@@ -4,6 +4,7 @@ import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import Image from "next/image";
 import Logo from '@/public/logo.png'
 import Link from "next/link";
+import {FaLongArrowAltLeft} from "react-icons/fa";
 
 
 function classNames(...classes) {
@@ -11,7 +12,7 @@ function classNames(...classes) {
 }
 
 
-export const NavBar = ({navigation, onClick}) => {
+export const NavBar = ({navigation, onClick, isHome}) => {
     return (
         <Disclosure as="nav" className="bg-gray-800">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -36,30 +37,44 @@ export const NavBar = ({navigation, onClick}) => {
                                 />
                             </Link>
                         </div>
-                        <div className="hidden sm:ml-6 sm:block">
-                            <div className="flex space-x-4">
-                                {navigation.map((item) => (
-                                    <div key={item.name}>
-                                        <button className={classNames(
-                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
-                                        )}
-                                        onClick={() => item.onClick(item.name)}
-                                        >{item.name}
-                                        </button>
-                                    </div>
-                                ))}
+                        {isHome ? (
+                            <div className="hidden sm:ml-6 sm:block">
+                                <div className="flex space-x-4">
+                                    {navigation.map((item) => (
+                                        <div key={item.name}>
+                                            <button className={classNames(
+                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
+                                            )}
+                                                    onClick={() => item.onClick(item.name)}
+                                            >{item.name}
+                                            </button>
+                                        </div>
+                                    ))}
 
+                                </div>
                             </div>
-                        </div>
+                        ): (
+                            <button
+                                className="flex items-center justify-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-500 rounded-md shadow-md transition duration-200 cursor-pointer ml-6"
+                                onClick={onClick}
+                            >
+                                <span className="text-lg mr-2"><FaLongArrowAltLeft /></span>
+                                <span>Voltar</span>
+                            </button>
+                        )}
+
                     </div>
-                    <button
-                        className="flex items-center justify-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-500 rounded-md shadow-md transition duration-200 cursor-pointer"
-                        onClick={onClick}
-                    >
-                        <span className="text-lg mr-2">+</span>
-                        <span>Adicionar</span>
-                    </button>
+                    {isHome && (
+                        <button
+                            className="flex items-center justify-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-500 rounded-md shadow-md transition duration-200 cursor-pointer"
+                            onClick={onClick}
+                        >
+                            <span className="text-lg mr-2">+</span>
+                            <span>Adicionar</span>
+                        </button>
+                    )}
+
                 </div>
             </div>
 
