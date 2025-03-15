@@ -6,10 +6,12 @@ import {SaveMovieModal} from "@/app/components/modal/SaveMovieModal";
 import {get, ref, set} from 'firebase/database'
 import {database} from "@/app/firebase/firebase";
 import {Alert} from "@/app/components/alert/Alert";
+import MoviePicker from "@/app/components/sort-movie/SortMovie";
 
 
 export default function Home() {
     const [isWatchedMovies, setWatchedMovies] = useState(false);
+    const [isSortMovie, setisSortMovie] = useState(false);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [isCreateMovieModalOpen, setCreateMovieModalOpen] = useState(false);
@@ -33,19 +35,26 @@ export default function Home() {
         return snapshot.val();
     }
 
+    const handleSortMovie = () => {
+        setWatchedMovies(false);
+        setisSortMovie(true);
+    };
+
+    const handleTabMovie = (type) => {
+        if (type === 'Para assistir') setWatchedMovies(false)
+        else setWatchedMovies(true)
+        setisSortMovie(false);
+    }
+
     useEffect(() => {
         const filtered = movies.filter(movie => movie.watched === isWatchedMovies);
         setFilteredMovies(filtered);
     }, [movies, isWatchedMovies]);
 
-    const handleTabMovie = (type) => {
-        if (type === 'Para assistir') setWatchedMovies(false)
-        else setWatchedMovies(true)
-    }
-
     const navigation = [
-        {name: 'Para assistir', onClick: handleTabMovie, current: !isWatchedMovies},
-        {name: 'Assitidos', onClick: handleTabMovie, current: isWatchedMovies},
+        {name: 'Para assistir', onClick: handleTabMovie, current: !isWatchedMovies && !isSortMovie},
+        {name: 'Assitidos', onClick: handleTabMovie, current: isWatchedMovies && !isSortMovie},
+        {name: 'Sorteio', onClick: handleSortMovie, current: isSortMovie},
     ]
 
     const handleSaveMovie = async ({title, description, imageUrl, watched}) => {
@@ -86,13 +95,14 @@ export default function Home() {
             )}
             <NavBar navigation={navigation} onClick={() => setCreateMovieModalOpen(true)} isHome={true}/>
             <div className="mt-6">
-                <MovieSection cardsData={filteredMovies} tittle={isWatchedMovies ? "Assistidos" : "Para assistir"}/>
+                {!isSortMovie ? (
+                    <MovieSection cardsData={filteredMovies} tittle={isWatchedMovies ? "Assistidos" : "Para assistir"}/>
+                ) : (
+                    <MoviePicker cardsData={filteredMovies} />
+                )}
             </div>
             <SaveMovieModal isOpen={isCreateMovieModalOpen} onClose={() => setCreateMovieModalOpen(false)}
-                            onSubmit={async ({title, description, imageUrl, watched}) =>
-                                handleSaveMovie({title, description, imageUrl, watched})
-
-                            }/>
+                            onSubmit={handleSaveMovie}/>
         </div>
     );
 }
