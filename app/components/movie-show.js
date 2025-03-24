@@ -10,10 +10,11 @@ export const MovieShow = ({movieData}) => {
                     <p className="text-gray-700 mb-4">{movieData.description}</p>
                     <div className="flex items-center mb-4">
                         <div className="flex items-center">
-                            {<RenderStars rating={movieData.rating}/> }
+                            {<RenderStars rating={movieData.rating}/>}
                         </div>
                         <span className="ml-2 text-gray-600">{movieData.rating} / 5</span>
                     </div>
+                    <span className="ml-2 text-gray-600">{movieData.votes} votos</span>
                     <div className="mt-4">
                 <span
                     className={`inline-block px-2 py-1 text-sm font-semibold rounded-full ${movieData.watched ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
