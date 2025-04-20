@@ -54,11 +54,6 @@
     margin-bottom: 2rem;
     gap: 1.5rem;
     min-height: 150px;
-    background: linear-gradient(
-        135deg,
-        rgba(16, 20, 48, 0.9) 0%,
-        rgba(2, 4, 32, 0.95) 100%
-    );
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 1.5rem;
@@ -67,6 +62,80 @@
     overflow: hidden;
     transform-style: preserve-3d;
     perspective: 1000px;
+}
+
+/* Background patterns para cada tier */
+.tier-row[data-tier="S"] {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.15) 0%,
+        rgba(255, 140, 0, 0.25) 100%
+    );
+    background-image: url('../../../public/vote5.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+}
+
+.tier-row[data-tier="A"] {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 140, 0, 0.15) 0%,
+        rgba(255, 69, 0, 0.25) 100%
+    );
+    background-image: url('../../../public/vote4.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+}
+
+.tier-row[data-tier="B"] {
+    background: linear-gradient(
+        135deg,
+        rgba(50, 205, 50, 0.15) 0%,
+        rgba(34, 139, 34, 0.25) 100%
+    );
+    background-image: url('../../../public/vote3.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+}
+
+.tier-row[data-tier="C"] {
+    background: linear-gradient(
+        135deg,
+        rgba(30, 144, 255, 0.15) 0%,
+        rgba(0, 0, 139, 0.25) 100%
+    );
+    background-image: url('../../../public/vote2.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+}
+
+.tier-row[data-tier="D"] {
+    background: linear-gradient(
+        135deg,
+        rgba(138, 43, 226, 0.15) 0%,
+        rgba(75, 0, 130, 0.25) 100%
+    );
+    background-image: url('../../../public/vote1.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+}
+
+.tier-row[data-tier="F"] {
+    background: linear-gradient(
+        135deg,
+        rgba(128, 128, 128, 0.15) 0%,
+        rgba(64, 64, 64, 0.25) 100%
+    );
+    background-image: url('../../../public/vote1.png');
+    background-size: 80px;
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+    filter: grayscale(100%);
 }
 
 /* Efeito scanline */
@@ -93,7 +162,7 @@
     background: radial-gradient(
         circle at center,
         transparent 30%,
-        rgba(0, 0, 0, 0.4) 100%
+        rgba(0, 0, 0, 0.6) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -108,6 +177,37 @@
 .tier-row:hover::before {
     opacity: 0.8;
     animation: scanline 4s linear infinite;
+}
+
+/* Ajuste nas cores das labels para combinar com os backgrounds */
+.tier-row[data-tier="S"] .tier-label {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border-color: #FFA500;
+}
+
+.tier-row[data-tier="A"] .tier-label {
+    background: linear-gradient(135deg, #FFA500 0%, #FF4500 100%);
+    border-color: #FF4500;
+}
+
+.tier-row[data-tier="B"] .tier-label {
+    background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+    border-color: #228B22;
+}
+
+.tier-row[data-tier="C"] .tier-label {
+    background: linear-gradient(135deg, #1E90FF 0%, #000080 100%);
+    border-color: #000080;
+}
+
+.tier-row[data-tier="D"] .tier-label {
+    background: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+    border-color: #4B0082;
+}
+
+.tier-row[data-tier="F"] .tier-label {
+    background: linear-gradient(135deg, #808080 0%, #404040 100%);
+    border-color: #404040;
 }
 
 .tier-label {
