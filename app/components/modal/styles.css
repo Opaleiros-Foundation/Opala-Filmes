@@ -3,7 +3,7 @@
   inset: 0;
   background: rgba(2, 4, 32, 0.85);
   backdrop-filter: blur(8px);
-  z-index: 50;
+  z-index: 1100; /* Aumentado para ficar acima do menu (1000-1004) */
 }
 
 .modal-container {
@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  z-index: 1101; /* Aumentado para ficar acima do overlay */
 }
 
 .modal-panel {
@@ -29,6 +30,7 @@
     inset 0 0 10px var(--neon-green-glow);
   animation: modalAppear 0.3s ease-out;
   overflow-y: auto; /* Adiciona scroll se necessário */
+  z-index: 1102; /* Aumentado para ficar acima do container */
 }
 
 .modal-close-button {
