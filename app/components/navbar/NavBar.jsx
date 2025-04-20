@@ -5,7 +5,7 @@ import Image from "next/image"
 import Logo from '@/public/opala-filmes.png'
 import Link from "next/link"
 import {FaLongArrowAltLeft} from "react-icons/fa"
-import {BiCameraMovie} from "react-icons/bi"
+import {BiCameraMovie, BiListCheck} from "react-icons/bi"
 import './styles.css'
 
 function classNames(...classes) {
