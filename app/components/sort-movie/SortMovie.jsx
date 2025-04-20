@@ -1,85 +1,108 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import { RenderStars } from "@/app/components/rating/RenderStars"; // Corrigindo o import
+import '@/app/components/rating/styles.css';
+import './styles.css';
 
 const MoviePicker = ({ cardsData }) => {
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+    const [showResult, setShowResult] = useState(false);
+    const [isScanning, setIsScanning] = useState(false);
+    const carouselRef = useRef(null);
 
-    useEffect(() => {
-        return () => {
-            setIsAnimating(false);
-            setCurrentMovieIndex(0);
-        };
-    }, []);
-
+    // Cria um array com 3 repetições dos filmes para criar efeito infinito
+    const movies = [...cardsData, ...cardsData, ...cardsData];
+    
     const selectRandomMovie = () => {
-        if (!cardsData?.length) return;
-        if (isAnimating) return;
-
+        if (!cardsData?.length || isAnimating) return;
+        
         setIsAnimating(true);
-        let currentIndex = 0;
-        const animationInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % cardsData.length;
-            setCurrentMovieIndex(currentIndex);
-        }, 100);
+        setShowResult(false);
+        setIsScanning(true);
+        
+        // Seleciona um filme aleatório do array original
+        const randomIndex = Math.floor(Math.random() * cardsData.length);
+        const movie = cardsData[randomIndex];
+        setSelectedMovie(movie);
 
+        // Calcula a largura do card + margem baseado no tamanho da tela
+        const getCardWidth = () => {
+            const width = window.innerWidth;
+            if (width <= 480) return 154; // 140px + 14px margin
+            if (width <= 768) return 176; // 160px + 16px margin
+            if (width <= 1024) return 198; // 180px + 18px margin
+            return 220; // 200px + 20px margin (desktop)
+        };
+
+        // Calcula a distância total do scroll
+        const cardWidth = getCardWidth();
+        const spins = 2; // Número de voltas completas
+        const totalCards = cardsData.length;
+        const spinDistance = (spins * totalCards + randomIndex) * cardWidth;
+
+        // Aplica a transformação
+        if (carouselRef.current) {
+            carouselRef.current.style.transform = `translateX(-${spinDistance}px)`;
+        }
+
+        // Timer para mostrar o resultado
         setTimeout(() => {
-            clearInterval(animationInterval);
             setIsAnimating(false);
-            const randomIndex = Math.floor(Math.random() * cardsData.length);
-            setSelectedMovie(cardsData[randomIndex]);
-        }, 2000);
+            setIsScanning(false);
+            setShowResult(true);
+        }, 4000);
     };
 
-    const currentMovie = isAnimating
-        ? cardsData[currentMovieIndex]
-        : (selectedMovie || (cardsData?.[0] || null));
-
     return (
-        <div className="max-w-2xl mx-auto p-6 space-y-6">
+        <div className="movie-picker-container">
             <button
                 onClick={selectRandomMovie}
                 disabled={isAnimating}
-                className={`
-          w-full px-6 py-3 text-lg font-semibold
-          bg-blue-600 text-white rounded-md
-          hover:bg-blue-700 transition-colors
-          duration-200 focus:outline-none
-          focus:ring-2 focus:ring-blue-500
-          focus:ring-offset-2 disabled:opacity-50
-          disabled:cursor-not-allowed
-        `}
+                className="movie-picker-button"
             >
                 {isAnimating ? 'Sorteando...' : 'Sortear Filme'}
             </button>
 
-            {cardsData?.length === 0 ? (
-                <div className="bg-white rounded-lg shadow-md p-6 text-center text-gray-500">
-                    Não há filmes disponíveis
+            <div className="carousel-container">
+                <div className="carousel-center-marker" />
+                <div 
+                    className="carousel-track"
+                    ref={carouselRef}
+                >
+                    {movies.map((movie, index) => (
+                        <div
+                            key={`${movie.uuid}-${index}`}
+                            className={`carousel-movie ${
+                                selectedMovie?.uuid === movie.uuid && isAnimating ? 'selected' : ''
+                            }`}
+                        >
+                            <img
+                                src={movie.image}
+                                alt={movie.title}
+                                className="carousel-movie-image"
+                                onError={(e) => {
+                                    e.target.src = 'https://via.placeholder.com/150x200';
+                                }}
+                            />
+                        </div>
+                    ))}
                 </div>
-            ) : (
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="relative">
+            </div>
+
+            {showResult && selectedMovie && (
+                <div className="result-container">
+                    <div className="selected-movie-card">
                         <img
-                            src={currentMovie?.image || 'https://via.placeholder.com/400x300'}
-                            alt={currentMovie?.title || 'Filme'}
-                            className="w-full h-64 object-cover transition-opacity duration-300"
+                            src={selectedMovie.image}
+                            alt={selectedMovie.title}
+                            className="selected-movie-image"
+                            onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/400x300';
+                            }}
                         />
-                        {isAnimating && (
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                <span className="text-white text-xl font-bold">Sorteando...</span>
-                            </div>
-                        )}
-                    </div>
-                    <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2 text-black">{currentMovie?.title || 'Selecione um filme'}</h3>
-                        <p className="text-gray-600 mb-4">{currentMovie?.description || ''}</p>
-                        <div className="flex gap-1">
-                            {Array(5).fill(null).map((_, i) => (
-                                <span key={i}>
-                  {i < (currentMovie?.rating || 0) ? '★' : '☆'}
-                </span>
-                            ))}
+                        <div className="selected-movie-info">
+                            <h3>{selectedMovie.title}</h3>
+                            <p>{selectedMovie.description}</p>
                         </div>
                     </div>
                 </div>

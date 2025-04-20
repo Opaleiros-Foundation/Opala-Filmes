@@ -1,0 +1,480 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 32, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+}
+
+.modal-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-panel {
+  position: relative;
+  width: 95%; /* Aumentado para 95% da largura da tela */
+  max-width: 1600px; /* Aumentado significativamente o máximo */
+  height: 800px; /* Altura fixa mais adequada */
+  background: var(--deep-space);
+  border: 2px solid var(--neon-green);
+  border-radius: 12px;
+  padding: 3rem; /* Aumentado padding geral */
+  box-shadow: 
+    0 0 20px var(--neon-green-glow),
+    inset 0 0 10px var(--neon-green-glow);
+  animation: modalAppear 0.3s ease-out;
+  overflow-y: auto; /* Adiciona scroll se necessário */
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--neon-green);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--neon-green);
+  font-size: 1.5rem;
+  line-height: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close-button:hover {
+  background: var(--neon-green);
+  color: var(--deep-space);
+  transform: rotate(90deg);
+  box-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.modal-title {
+  color: var(--neon-green);
+  font-family: var(--font-geist-mono);
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.modal-rating-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Força 5 colunas ao invés de auto-fit */
+  gap: 2rem; /* Aumentado de 1.5rem para 2rem */
+  padding: 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.rating-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease;
+  position: relative;
+  width: 120px; /* Tamanho base definido */
+  margin: 0 auto;
+}
+
+.rating-button:hover {
+  transform: translateY(-5px);
+}
+
+.rating-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.rating-button:hover .rating-image {
+  border-color: currentColor;
+  box-shadow: 0 0 15px currentColor;
+}
+
+.rating-value {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--cosmic-white);
+  font-family: var(--font-geist-mono);
+  font-size: 1.25rem;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.rating-button:hover .rating-value {
+  opacity: 1;
+  text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsividade ajustada */
+@media (max-width: 768px) {
+  .modal-rating-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .rating-button {
+    width: 100px;
+  }
+
+  .modal-panel {
+    width: 98%;
+    height: 90vh;
+    padding: 2rem; /* Reduz padding em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-rating-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .rating-button {
+    width: 90px;
+  }
+
+  .modal-panel {
+    padding: 1.5rem;
+  }
+}
+
+/* Estilos específicos para cada nota */
+.rating-terrible .rating-image {
+  border: 2px solid #FF4136;
+  transition: all 0.2s ease;
+}
+
+.rating-terrible:hover .rating-image {
+  border-color: #FF4136;
+  box-shadow: 0 0 15px rgba(255, 65, 54, 0.7);
+}
+
+.rating-bad .rating-image {
+  border: 2px solid #FF851B;
+  transition: all 0.2s ease;
+}
+
+.rating-bad:hover .rating-image {
+  border-color: #FF851B;
+  box-shadow: 0 0 15px rgba(255, 133, 27, 0.7);
+}
+
+.rating-okay .rating-image {
+  border: 2px solid #FFDC00;
+  transition: all 0.2s ease;
+}
+
+.rating-okay:hover .rating-image {
+  border-color: #FFDC00;
+  box-shadow: 0 0 15px rgba(255, 220, 0, 0.7);
+}
+
+.rating-good .rating-image {
+  border: 2px solid #2ECC40;
+  transition: all 0.2s ease;
+}
+
+.rating-good:hover .rating-image {
+  border-color: #2ECC40;
+  box-shadow: 0 0 15px rgba(46, 204, 64, 0.7);
+}
+
+.rating-excellent .rating-image {
+  border: 2px solid var(--neon-green);
+  transition: all 0.2s ease;
+}
+
+.rating-excellent:hover .rating-image {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 15px var(--neon-green-glow);
+}
+
+.rating-effects-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.rating-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rating-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rating-button:hover .rating-glow {
+  opacity: 1;
+}
+
+/* Animações específicas para cada nota */
+.rating-terrible:hover .rating-particles::before {
+  content: '💥';
+  animation: explode 0.5s ease-out;
+}
+
+.rating-bad:hover .rating-particles::before {
+  content: '👎';
+  animation: shake 0.5s ease-in-out;
+}
+
+.rating-okay:hover .rating-particles::before {
+  content: '🤔';
+  animation: bounce 0.5s ease-in-out;
+}
+
+.rating-good:hover .rating-particles::before {
+  content: '👍';
+  animation: pulse 0.5s ease-in-out;
+}
+
+.rating-excellent:hover .rating-particles::before {
+  content: '⭐';
+  animation: sparkle 0.5s ease-in-out infinite;
+}
+
+/* Animações */
+@keyframes explode {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes sparkle {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+  100% { transform: scale(1) rotate(360deg); opacity: 1; }
+}
+
+/* Efeito de partículas para nota 5 */
+.rating-excellent:hover .rating-particles::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: 
+    radial-gradient(circle at 30% 30%, var(--neon-green) 2px, transparent 2px),
+    radial-gradient(circle at 70% 70%, var(--neon-green) 2px, transparent 2px),
+    radial-gradient(circle at 40% 60%, var(--neon-green) 2px, transparent 2px),
+    radial-gradient(circle at 60% 40%, var(--neon-green) 2px, transparent 2px);
+  animation: particleFloat 2s linear infinite;
+}
+
+@keyframes particleFloat {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Efeito de vibração para nota 1 */
+.rating-terrible:hover .rating-image {
+  animation: shake 0.2s ease-in-out infinite;
+}
+
+/* Efeito de ondulação para nota 3 */
+.rating-okay:hover .rating-image {
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: skewX(0deg); }
+  25% { transform: skewX(3deg); }
+  75% { transform: skewX(-3deg); }
+}
+
+/* Efeito de celebração para nota 5 */
+.rating-excellent:hover .modal-panel {
+  animation: celebrate 0.5s ease-in-out;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Mensagem flutuante */
+.rating-message {
+  position: relative;
+  animation: floatMessage 2s ease-in-out infinite;
+}
+
+@keyframes floatMessage {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Efeito de transição ao trocar notas */
+.rating-message {
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.rating-message:not(:empty) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ajuste nos efeitos de glow para corresponder às cores das bordas */
+.rating-terrible .rating-glow {
+  box-shadow: 0 0 20px #FF4136;
+  border-color: #FF4136;
+}
+
+.rating-bad .rating-glow {
+  box-shadow: 0 0 20px #FF851B;
+  border-color: #FF851B;
+}
+
+.rating-okay .rating-glow {
+  box-shadow: 0 0 20px #FFDC00;
+  border-color: #FFDC00;
+}
+
+.rating-good .rating-glow {
+  box-shadow: 0 0 20px #2ECC40;
+  border-color: #2ECC40;
+}
+
+.rating-excellent .rating-glow {
+  box-shadow: 0 0 20px var(--neon-green);
+  border-color: var(--neon-green);
+}
+
+/* Ajuste nos valores numéricos para usar as cores correspondentes */
+.rating-terrible .rating-value {
+  color: #FF4136;
+  text-shadow: 0 0 5px rgba(255, 65, 54, 0.7);
+}
+
+.rating-bad .rating-value {
+  color: #FF851B;
+  text-shadow: 0 0 5px rgba(255, 133, 27, 0.7);
+}
+
+.rating-okay .rating-value {
+  color: #FFDC00;
+  text-shadow: 0 0 5px rgba(255, 220, 0, 0.7);
+}
+
+.rating-good .rating-value {
+  color: #2ECC40;
+  text-shadow: 0 0 5px rgba(46, 204, 64, 0.7);
+}
+
+.rating-excellent .rating-value {
+  color: var(--neon-green);
+  text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.selected-movie-content {
+  display: flex;
+  gap: 2rem;
+  height: auto; /* Remove altura fixa */
+}
+
+.selected-movie-poster {
+  width: 300px;
+  height: 450px; /* Altura fixa proporcional */
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid var(--cosmic-white);
+}
+
+/* Mantendo a responsividade */
+@media (max-width: 768px) {
+  .modal-panel {
+    width: 98%; /* Quase tela cheia em mobile */
+    height: 90vh; /* Em telas menores, usa porcentagem da viewport */
+    padding: 1.5rem;
+  }
+
+  .search-result-item {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .result-poster {
+    width: 80px;
+    height: 120px;
+  }
+
+  .result-title {
+    font-size: 1.1rem;
+  }
+}
+
+.rating-modal {
+  height: auto !important; /* Sobrescreve a altura fixa */
+  min-height: auto !important;
+  max-height: 90vh;
+  padding: 2rem !important;
+}
+
+.rating-modal .modal-rating-grid {
+  margin-top: 1rem;
+}
+
+/* Ajuste responsivo específico para o modal de avaliação */
+@media (max-width: 768px) {
+  .rating-modal {
+    width: 95%;
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .rating-modal {
+    padding: 1rem !important;
+  }
+}

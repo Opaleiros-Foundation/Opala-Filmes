@@ -1,0 +1,193 @@
+.movie-card {
+  position: relative;
+  background: var(--deep-space-light);
+  border: 3px solid var(--cosmic-white);
+  box-shadow: 
+    6px 6px 0 var(--neon-green),
+    0 0 15px var(--neon-green-glow),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Efeito de filme antigo */
+.movie-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 3px
+    );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.3;
+}
+
+/* Vinheta nas bordas */
+.movie-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.movie-card:hover {
+  transform: translate(-6px, -6px);
+  box-shadow: 
+    12px 12px 0 var(--neon-green),
+    0 0 25px var(--neon-green-glow),
+    inset 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.movie-card-image {
+  width: 100%;
+  height: 300px; /* Reduzido a altura da imagem */
+  object-fit: cover;
+  border-bottom: 3px solid var(--cosmic-white);
+  filter: contrast(1.1) saturate(1.1);
+  position: relative;
+}
+
+.movie-card-content {
+  padding: 1.5rem;
+  background: linear-gradient(
+    to bottom,
+    var(--deep-space-light) 0%,
+    rgba(2, 4, 32, 0.95) 100%
+  );
+  position: relative;
+}
+
+.movie-card-title {
+  color: var(--cosmic-white);
+  font-family: var(--font-geist-mono);
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 
+    2px 2px 0 var(--neon-green-dim),
+    0 0 10px var(--neon-green-glow);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.movie-card-description {
+  color: var(--cosmic-white);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 4.5em;
+  opacity: 0.9;
+  font-family: var(--font-geist-sans);
+  position: relative;
+  padding-left: 1rem;
+  border-left: 2px solid var(--neon-green-dim);
+}
+
+.movie-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--neon-green-dim);
+}
+
+.movie-card-rating span {
+  color: var(--neon-green);
+  font-family: var(--font-geist-mono);
+  font-size: 1.25rem;
+  text-shadow: 0 0 8px var(--neon-green-glow);
+}
+
+/* Decoração de cantos tipo filme */
+.movie-card-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-green);
+  z-index: 3;
+}
+
+.movie-card-corner-tl {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.movie-card-corner-tr {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.movie-card-corner-bl {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.movie-card-corner-br {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+@media (max-width: 768px) {
+  .movie-card {
+    border-width: 2px;
+  }
+
+  .movie-card-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-card {
+    box-shadow: 
+      4px 4px 0 var(--neon-green),
+      0 0 10px var(--neon-green-glow);
+  }
+
+  .movie-card-image {
+    height: 200px;
+  }
+
+  .movie-card-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .movie-card-image {
+    height: 200px;
+  }
+
+  .movie-card-content {
+    padding: 0.75rem;
+  }
+}

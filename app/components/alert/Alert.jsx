@@ -1,33 +1,22 @@
-export const Alert = ({alertMessage, isSuccess}) => {
-  return (
-      <div>
-          {isSuccess ? (
-              <div className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mb-4"
-                   role="alert">
-                  <div className="flex">
-                      <div className="py-1">
-                          <svg className="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg"
-                               viewBox="0 0 20 20">
-                              <path
-                                  d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-                          </svg>
-                      </div>
-                      <div>
-                          <p className="font-bold">{alertMessage}</p>
-                      </div>
-                  </div>
-              </div>
-          ): (
-              <div role="alert">
-                  <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                      Danger
-                  </div>
-                  <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                      <p>{alertMessage}</p>
-                  </div>
-              </div>
-          )}
-      </div>
+import './styles.css';
 
-  )
-}
+export const Alert = ({alertMessage, isSuccess}) => {
+    return (
+        <div className="alert-wrapper">
+            <div className={`alert-container ${isSuccess ? 'alert-success' : 'alert-error'}`} role="alert">
+                <div className="alert-content">
+                    {isSuccess ? (
+                        <svg className="alert-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-.997-6l7.07-7.071-1.414-1.414-5.656 5.657-2.829-2.829-1.414 1.414L11.003 16z"/>
+                        </svg>
+                    ) : (
+                        <svg className="alert-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/>
+                        </svg>
+                    )}
+                    <span className="alert-text">{alertMessage}</span>
+                </div>
+            </div>
+        </div>
+    );
+};

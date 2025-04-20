@@ -1,0 +1,295 @@
+.movie-show-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 4rem 2rem; /* Aumentado o padding top/bottom */
+    background: var(--deep-space);
+    color: var(--cosmic-white);
+    margin-top: 2rem; /* Adicionado margin top */
+}
+
+.movie-show-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--deep-space-light);
+    border: 3px solid var(--cosmic-white);
+    box-shadow: 6px 6px 0 var(--neon-green),
+    0 0 15px var(--neon-green-glow),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.movie-show-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    padding: 2rem;
+    min-height: 600px; /* Altura mínima para garantir espaço suficiente */
+}
+
+.movie-poster {
+    position: relative;
+    width: 100%;
+    height: 100%; /* Alterado para ocupar altura total */
+    border: 3px solid var(--cosmic-white);
+    box-shadow: 0 0 15px var(--neon-green-glow),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.movie-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.1) saturate(1.1);
+}
+
+.movie-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.movie-title {
+    font-family: var(--font-geist-mono);
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cosmic-white);
+    text-shadow: 2px 2px 0 var(--neon-green-dim),
+    0 0 10px var(--neon-green-glow);
+}
+
+.movie-description {
+    font-family: var(--font-geist-sans);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--cosmic-white);
+    opacity: 0.9;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 3px solid var(--neon-green);
+    border-radius: 0 4px 4px 0;
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 1.5rem;
+    background: #0003;
+    border-radius: 8px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.rating-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.rating-value {
+    font-family: var(--font-geist-mono);
+    font-size: 1.75rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.votes-count {
+    font-size: 1rem;
+    opacity: 0.8;
+    color: var(--cosmic-white);
+}
+
+.stars-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.watched-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--neon-green);
+    color: var(--deep-space);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 0 15px var(--neon-green-glow);
+    align-self: flex-start;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    margin-top: auto;
+    position: relative;
+    width: 100%;
+}
+
+.action-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid;
+}
+
+.watch-button {
+    color: var(--neon-green);
+    background: transparent;
+    border-color: var(--neon-green);
+    box-shadow: 
+        0 0 10px var(--neon-green-glow),
+        inset 0 0 10px var(--neon-green-glow);
+}
+
+.watch-button:hover {
+    background: var(--neon-green);
+    color: var(--deep-space);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 20px var(--neon-green-glow),
+        inset 0 0 20px var(--neon-green-glow);
+}
+
+.vote-button {
+    color: var(--cosmic-white);
+    background: transparent;
+    border-color: var(--cosmic-white);
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.vote-button:hover {
+    background: var(--cosmic-white);
+    color: var(--deep-space);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Efeito de brilho nos botões */
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.action-button:hover::before {
+    left: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .action-button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Efeito de filme antigo */
+.movie-show-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 3px
+    );
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.3;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .movie-show-grid {
+        gap: 1.5rem;
+    }
+
+    .movie-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-show-container {
+        padding: 3rem 1rem;
+    }
+
+    .movie-show-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .movie-poster {
+        height: 500px;
+        max-width: 100%;
+    }
+
+    .movie-title {
+        font-size: 1.75rem;
+    }
+
+    .movie-description {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+
+    .movie-actions {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .action-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-show-container {
+        padding: 2rem 1rem;
+    }
+
+    .movie-poster {
+        height: 400px;
+    }
+
+    .movie-title {
+        font-size: 1.5rem;
+    }
+}

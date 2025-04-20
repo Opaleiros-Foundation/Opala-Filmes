@@ -7,11 +7,12 @@ import {get, ref, set} from 'firebase/database'
 import {database} from "@/app/firebase/firebase";
 import {Alert} from "@/app/components/alert/Alert";
 import MoviePicker from "@/app/components/sort-movie/SortMovie";
-
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-    const [isWatchedMovies, setWatchedMovies] = useState(false);
-    const [isSortMovie, setisSortMovie] = useState(false);
+    const router = useRouter();
+    const [isWatchedMovies, setIsWatchedMovies] = useState(false);
+    const [isSortMovie, setIsSortMovie] = useState(false);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [isCreateMovieModalOpen, setCreateMovieModalOpen] = useState(false);
@@ -36,14 +37,14 @@ export default function Home() {
     }
 
     const handleSortMovie = () => {
-        setWatchedMovies(false);
-        setisSortMovie(true);
+        setIsWatchedMovies(false);
+        setIsSortMovie(true);
     };
 
     const handleTabMovie = (type) => {
-        if (type === 'Para assistir') setWatchedMovies(false)
-        else setWatchedMovies(true)
-        setisSortMovie(false);
+        if (type === 'Para assistir') setIsWatchedMovies(false)
+        else setIsWatchedMovies(true)
+        setIsSortMovie(false);
     }
 
     useEffect(() => {
@@ -51,10 +52,15 @@ export default function Home() {
         setFilteredMovies(filtered);
     }, [movies, isWatchedMovies]);
 
+    const handleTierList = () => {
+        router.push('/tierlist');
+    };
+
     const navigation = [
         {name: 'Para assistir', onClick: handleTabMovie, current: !isWatchedMovies && !isSortMovie},
         {name: 'Assitidos', onClick: handleTabMovie, current: isWatchedMovies && !isSortMovie},
         {name: 'Sorteio', onClick: handleSortMovie, current: isSortMovie},
+        {name: 'Tier List', onClick: handleTierList, current: false},
     ]
 
     const handleSaveMovie = async ({title, description, imageUrl, watched}) => {

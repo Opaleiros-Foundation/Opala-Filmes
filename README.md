@@ -1,53 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 Opala Filmes
 
-## Getting Started
+![](public/opala-filmes.png)
 
-First, run the development server:
+
+Uma plataforma web onde opaleiros podem votar e compartilhar opiniões sobre filmes. Desenvolvida com Next.js, Firebase e TailwindCSS.
+
+## 🚀 Características
+
+- 📋 Lista de filmes para assistir
+- ⭐ Sistema de votação (1-5 estrelas)
+- 🎲 Sorteio aleatório de filmes
+- ✅ Marcação de filmes assistidos
+- 📱 Design responsivo
+- 🌙 Tema claro/escuro
+
+## 🛠️ Tecnologias
+
+- [Next.js 15.2](https://nextjs.org/)
+- [React 19](https://react.dev/)
+- [Firebase](https://firebase.google.com/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Headless UI](https://headlessui.com/)
+
+## 📦 Instalação
 
 ```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/opala-filmes.git
+
+# Entre no diretório
+cd opala-filmes
+
+# Instale as dependências
+npm install
+
+# Configure as variáveis de ambiente
+cp .env.example .env.local
+```
+
+### 🔧 Configuração do Firebase
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/)
+2. Adicione as credenciais no arquivo `.env.local`:
+
+```env
+FIREBASE_API_KEY=sua_api_key
+FIREBASE_AUTH_DOMAIN=seu_auth_domain
+FIREBASE_PROJECT_ID=seu_project_id
+FIREBASE_STORAGE_BUCKET=seu_storage_bucket
+FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
+FIREBASE_APP_ID=seu_app_id
+```
+
+## 🚀 Uso
+
+```bash
+# Desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build
+npm run build
+
+# Produção
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📁 Estrutura do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-```js
-[
-    {
-        id: 1,
-        image: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
-        title: 'Mariah alcolatra',
-        description: 'This is a brief description of the first card.',
-        rating: 0,
-        watched: true,
-        votesNumber: 0
-    },
-    {
-        id: 2,
-        image: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
-        title: 'Maraya',
-        description: 'This is a brief description of the second card.',
-        rating: 0,
-        watched: false,
-        votesNumber: 0
-    },
-    {
-        id: 3,
-        image: 'https://media.licdn.com/dms/image/v2/D4D03AQGMVu5lEspoDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718468009343?e=1746662400&v=beta&t=2kTcVsuC3FtldF659E7tkb_K66DMKZBZQ6hdLGqgAYA',
-        title: 'Eduarda',
-        description: 'This is a brief description of the third card.',
-        rating: 0,
-        watched: true,
-        votesNumber: 0
-    },
-]
 ```
+/app
+  /[movie]         # Rota dinâmica para detalhes do filme
+  /components      # Componentes reutilizáveis
+  /firebase        # Configuração do Firebase
+  page.js          # Página principal
+  layout.js        # Layout base
+/public            # Arquivos estáticos
+```
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie sua Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a Branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Convenções de Código
+
+- Componentes em PascalCase
+- Funções em camelCase
+- Arquivos de componentes: `.jsx`
+- Arquivos de utilidades: `.js`
+- Testes: `.test.js`
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 📊 Status do Projeto
+
+![GitHub stars](https://img.shields.io/github/stars/seu-usuario/opala-filmes?style=social)
+![GitHub forks](https://img.shields.io/github/forks/seu-usuario/opala-filmes?style=social)
+![GitHub issues](https://img.shields.io/github/issues/seu-usuario/opala-filmes)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/seu-usuario/opala-filmes)
