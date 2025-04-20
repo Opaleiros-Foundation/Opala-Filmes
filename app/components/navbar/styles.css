@@ -1,0 +1,268 @@
+.retro-cinema {
+  --neon-green: #0BDB72;
+  --neon-green-alt: #0DDA5E;
+  --deep-space: #020420;
+  --cosmic-white: #EAEFF0;
+  --neon-green-glow: rgba(11, 219, 114, 0.5);
+  --neon-green-dim: rgba(11, 219, 114, 0.2);
+  --deep-space-light: rgba(2, 4, 32, 0.9);
+  --film-strip-color: rgba(234, 239, 240, 0.1);
+  --vignette-color: rgba(2, 4, 32, 0.95);
+  --ambient-glow: rgba(11, 219, 114, 0.15);
+}
+
+/* Animação de Vinheta mais dramática */
+@keyframes vinhetteBreathing {
+  0%, 100% { 
+    box-shadow: 
+      inset 0 0 150px 45px var(--vignette-color),
+      inset 0 0 50px 10px var(--ambient-glow),
+      0 0 25px 5px var(--ambient-glow);
+  }
+  50% { 
+    box-shadow: 
+      inset 0 0 200px 60px var(--vignette-color),
+      inset 0 0 70px 15px var(--ambient-glow),
+      0 0 35px 10px var(--ambient-glow);
+  }
+}
+
+@keyframes backgroundShimmer {
+  0% { transform: translateX(-100%) rotate(-45deg); }
+  50% { transform: translateX(100%) rotate(-45deg); }
+  100% { transform: translateX(-100%) rotate(-45deg); }
+}
+
+.header-background {
+  position: relative;
+  background: var(--deep-space);
+  animation: vinhetteBreathing 0.25s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.header-background::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  right: -100%;
+  bottom: -100%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    var(--ambient-glow) 25%,
+    var(--neon-green-glow) 50%,
+    var(--ambient-glow) 75%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  animation: backgroundShimmer 15s linear infinite;
+  pointer-events: none;
+}
+
+.header-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Animação da Claquete */
+@keyframes clapperboard {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-10deg); }
+  20% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.nav-menu-link {
+  position: relative;
+  color: var(--cosmic-white);
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-menu-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-green);
+  transition: width 0.3s ease;
+}
+
+.nav-menu-link:hover {
+  color: var(--neon-green);
+}
+
+.nav-menu-link:hover::after {
+  width: 100%;
+}
+
+.add-movie-button {
+  position: relative;
+  background: var(--deep-space);
+  border: 2px solid var(--neon-green);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.add-movie-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-green-glow),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.add-movie-button:hover::before {
+  left: 100%;
+}
+
+.add-movie-button .icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  animation: clapperboard 2s infinite;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-logo {
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo a {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  transition: filter 0.3s ease;
+}
+
+.nav-logo:hover img {
+  filter: brightness(1.2);
+}
+
+@keyframes filmGrain {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.15; }
+}
+
+.film-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--film-grain);
+  opacity: 0.1;
+  animation: filmGrain 0.5s steps(1) infinite;
+  pointer-events: none;
+}
+
+.film-strip {
+  height: 6px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 12px,
+    var(--film-strip-color) 12px,
+    var(--film-strip-color) 15px
+  );
+  box-shadow: 
+    0 0 10px var(--ambient-glow),
+    0 0 20px var(--neon-green-glow);
+}
+
+.marquee-text {
+  text-shadow: 
+    2px 2px 0px var(--neon-green),
+    -2px -2px 0px var(--neon-green-alt);
+  letter-spacing: 2px;
+}
+
+.vintage-button {
+  background: var(--deep-space);
+  box-shadow: 
+    inset 0 0 10px var(--neon-green-dim),
+    0 0 15px var(--neon-green-glow);
+  text-shadow: 0 0 5px var(--neon-green);
+  border: 1px solid var(--neon-green-dim);
+}
+
+.vintage-button:hover {
+  box-shadow: 
+    inset 0 0 15px var(--neon-green-dim),
+    0 0 20px var(--neon-green-glow);
+  border-color: var(--neon-green);
+}
+
+.vintage-border {
+  position: relative;
+}
+
+.vintage-border::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--neon-green), var(--neon-green-alt));
+  z-index: -1;
+  opacity: 0.5;
+  border-radius: inherit;
+}
+
+@keyframes neonPulse {
+  0%, 100% { 
+    opacity: 1;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+  }
+  50% { 
+    opacity: 0.8;
+    text-shadow: 0 0 20px var(--neon-green-glow);
+  }
+}
+
+.neon-flicker {
+  animation: neonPulse 2s infinite;
+  color: var(--neon-green);
+}
+
+/* Ajuste responsivo para telas menores */
+@media (max-width: 640px) {
+  .nav-logo img {
+    height: 4rem; /* 64px */
+  }
+}
