@@ -1,7 +1,10 @@
 .movie-picker-container {
-    max-width: 800px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
     padding: 2rem;
+    width: 100%;
 }
 
 .movie-picker-content {
@@ -12,51 +15,23 @@
 }
 
 .movie-picker-button {
-    width: 100%;
-    max-width: 300px;
     padding: 1rem 2rem;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--cosmic-white);
-    background: transparent;
-    border: 2px solid var(--neon-green);
-    border-radius: 8px;
+    font-size: 1.2rem;
+    background-color: var(--neon-green);
+    color: var(--deep-space);
+    border: none;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 3rem; /* Adicionado espaçamento inferior */
 }
 
-.movie-picker-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
-    background: var(--neon-green);
-    border-radius: 50%;
-    transition: all 0.5s ease;
-    opacity: 0;
-}
-
-.movie-picker-button:hover:not(:disabled) {
-    box-shadow: 0 0 15px var(--neon-green-glow);
-    text-shadow: 0 0 5px var(--neon-green-glow);
-}
-
-.movie-picker-button:hover:not(:disabled)::before {
-    width: 300px;
-    height: 300px;
-    opacity: 0.1;
+.movie-picker-button:hover {
+    background-color: var(--neon-green-alt);
+    transform: scale(1.05);
 }
 
 .movie-picker-button:disabled {
-    opacity: 0.5;
+    background-color: var(--neon-green-dim);
     cursor: not-allowed;
 }
 
@@ -184,116 +159,100 @@
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 300px;
-    margin: 2rem 0;
+    height: 220px;
     overflow: hidden;
+}
+
+.carousel-center-marker {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--neon-green);
+    transform: translateX(-50%);
+    z-index: 10;
 }
 
 .carousel-track {
     display: flex;
     position: absolute;
-    height: 100%;
     left: 50%;
     transform: translateX(0);
     will-change: transform;
 }
 
 .carousel-movie {
-    flex: 0 0 200px;
-    height: 100%;
-    padding: 0 10px;
+    width: 200px;
+    height: 200px;
+    margin: 0 10px;
+    border-radius: 8px;
+    overflow: hidden;
     transition: all 0.3s ease;
+}
+
+.carousel-movie.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--neon-green);
 }
 
 .carousel-movie-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border: 2px solid var(--neon-green);
-    border-radius: 8px;
-    box-shadow: 0 0 15px var(--neon-green-glow);
-    transition: all 0.3s ease;
-    filter: brightness(0.7);
 }
 
-.carousel-movie.selected .carousel-movie-image {
-    filter: brightness(1);
-    transform: scale(1.05);
-    box-shadow: 0 0 25px var(--neon-green-glow);
-}
-
-.carousel-marker {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 4px;
-    height: 100%;
-    background-color: var(--neon-green);
-    box-shadow: 0 0 15px var(--neon-green-glow);
-    z-index: 1;
-}
-
-@media (max-width: 768px) {
-    .carousel-container {
-        height: 250px;
-    }
-
-    .carousel-movie {
-        flex: 0 0 150px;
-    }
-}
-
-.selected-movie-container {
+.result-container {
+    margin-top: 2rem;
     width: 100%;
-    opacity: 0;
-    animation: fadeIn 0.5s ease-out forwards;
-    animation-delay: 0.5s;
+    max-width: 800px;
 }
 
 .selected-movie-card {
-    background: var(--deep-space-light);
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid var(--neon-green);
-    box-shadow: 0 0 20px var(--neon-green-glow);
-    animation: cardEntrance 0.5s ease-out forwards;
-}
-
-.selected-movie-poster {
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: var(--deep-space-light);
+    border-radius: 1rem;
+    box-shadow: 0 0 30px var(--ambient-glow);
 }
 
 .selected-movie-image {
-    width: 100%;
-    height: 100%;
+    width: 300px;
+    height: 400px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    border-radius: 0.5rem;
 }
 
 .selected-movie-info {
-    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.selected-movie-title {
-    font-size: 1.75rem;
-    color: var(--neon-green);
-    margin-bottom: 1rem;
-    text-shadow: 0 0 5px var(--neon-green-glow);
-}
-
-.selected-movie-description {
+.selected-movie-info h3 {
+    font-size: 1.5rem;
     color: var(--cosmic-white);
-    line-height: 1.6;
-    margin-bottom: 1rem;
 }
 
-.selected-movie-rating {
+.selected-movie-info p {
+    color: var(--cosmic-white);
+    opacity: 0.8;
+}
+
+.rating {
     display: flex;
     gap: 0.5rem;
+}
+
+.star {
+    color: var(--neon-green);
     font-size: 1.5rem;
+}
+
+.star.filled {
+    color: var(--neon-green-alt);
 }
 
 @keyframes fadeIn {

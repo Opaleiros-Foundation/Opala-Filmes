@@ -1,151 +1,113 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import './styles.css';
 
 const MoviePicker = ({ cardsData }) => {
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
     const [showResult, setShowResult] = useState(false);
-    const [showCarousel, setShowCarousel] = useState(true);
     const carouselRef = useRef(null);
 
-    // Array para o carrossel com filmes duplicados
-    const duplicatedCards = [...cardsData, ...cardsData, ...cardsData];
-    const cardWidth = 220; // 200px largura + 20px padding
-
+    // Cria um array com 3 repetições dos filmes para criar efeito infinito
+    const movies = [...cardsData, ...cardsData, ...cardsData];
+    
     const selectRandomMovie = () => {
         if (!cardsData?.length || isAnimating) return;
-
-        if (showResult) {
-            setShowResult(false);
-            setSelectedMovie(null);
-            setShowCarousel(true);
-            
-            if (carouselRef.current) {
-                carouselRef.current.style.transition = 'none';
-                carouselRef.current.style.transform = 'translateX(0)';
-                carouselRef.current.offsetHeight;
-            }
-            
-            setTimeout(() => {
-                startAnimation();
-            }, 100);
-        } else {
-            startAnimation();
-        }
-    };
-
-    const startAnimation = () => {
+        
+        // Reset do estado
         setIsAnimating(true);
+        setShowResult(false);
         
         // Seleciona um filme aleatório do array original
         const randomIndex = Math.floor(Math.random() * cardsData.length);
-        const selectedMovie = cardsData[randomIndex];
-        setSelectedMovie(selectedMovie);
+        const movie = cardsData[randomIndex];
+        setSelectedMovie(movie);
 
-        // Calcula a posição central da viewport
-        const viewportCenter = window.innerWidth / 2;
-        
-        // Encontra o índice do filme selecionado no array duplicado
-        const selectedIndexInDuplicated = duplicatedCards.findIndex(
-            (movie) => movie.uuid === selectedMovie.uuid
-        );
+        // Calcula quantas posições o carrossel deve girar
+        const spins = 2; // Número de voltas completas
+        const totalCards = cardsData.length;
+        const spinDistance = (spins * totalCards + randomIndex) * 220; // 220px é a largura do card
 
-        // Calcula a posição final para centralizar o filme selecionado
-        const targetPosition = -(selectedIndexInDuplicated * cardWidth - viewportCenter + cardWidth / 2);
-
+        // Aplica a animação
         if (carouselRef.current) {
-            // Adiciona uma animação mais suave com easing
-            carouselRef.current.style.transition = 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
-            carouselRef.current.style.transform = `translateX(${targetPosition}px)`;
+            carouselRef.current.style.transition = 'none';
+            carouselRef.current.style.transform = 'translateX(0)';
+            carouselRef.current.offsetHeight; // Força reflow
+            
+            carouselRef.current.style.transition = 'transform 4s cubic-bezier(0.5, 0, 0.5, 1)';
+            carouselRef.current.style.transform = `translateX(-${spinDistance}px)`;
         }
 
-        // Aguarda o fim da animação para mostrar o resultado
+        // Finaliza a animação
         setTimeout(() => {
             setIsAnimating(false);
             setShowResult(true);
-            
-            setTimeout(() => {
-                setShowCarousel(false);
-            }, 1000);
         }, 4000);
     };
 
-    // Reset do carrossel quando não está animando
-    useEffect(() => {
-        if (!isAnimating && carouselRef.current) {
-            carouselRef.current.style.transition = 'none';
-            carouselRef.current.style.transform = 'translateX(0)';
-        }
-    }, [isAnimating]);
-
     return (
         <div className="movie-picker-container">
-            <div className="movie-picker-content">
-                <button
-                    onClick={selectRandomMovie}
-                    disabled={isAnimating}
-                    className="movie-picker-button"
+            <button
+                onClick={selectRandomMovie}
+                disabled={isAnimating}
+                className="movie-picker-button"
+            >
+                {isAnimating ? 'Sorteando...' : 'Sortear Filme'}
+            </button>
+
+            <div className="carousel-container">
+                <div className="carousel-center-marker" />
+                <div 
+                    className="carousel-track"
+                    ref={carouselRef}
                 >
-                    {isAnimating ? 'Sorteando...' : 'Sortear Filme'}
-                </button>
-
-                {showCarousel && (
-                    <div className="carousel-container">
-                        <div className="carousel-marker"></div>
-                        <div 
-                            className="carousel-track"
-                            ref={carouselRef}
+                    {movies.map((movie, index) => (
+                        <div
+                            key={`${movie.uuid}-${index}`}
+                            className={`carousel-movie ${
+                                selectedMovie?.uuid === movie.uuid && isAnimating ? 'selected' : ''
+                            }`}
                         >
-                            {duplicatedCards.map((movie, index) => (
-                                <div
-                                    key={`${movie.uuid}-${index}`}
-                                    className={`carousel-movie ${
-                                        selectedMovie?.uuid === movie.uuid ? 'selected' : ''
-                                    }`}
-                                >
-                                    <img
-                                        src={movie.image || 'https://via.placeholder.com/150x200'}
-                                        alt={movie.title}
-                                        className="carousel-movie-image"
-                                    />
-                                </div>
-                            ))}
+                            <img
+                                src={movie.image}
+                                alt={movie.title}
+                                className="carousel-movie-image"
+                                onError={(e) => {
+                                    e.target.src = 'https://via.placeholder.com/150x200';
+                                }}
+                            />
                         </div>
-                    </div>
-                )}
-
-                {showResult && selectedMovie && (
-                    <div className="selected-movie-container">
-                        <div className="selected-movie-card">
-                            <div className="selected-movie-poster">
-                                <img
-                                    src={selectedMovie.image || 'https://via.placeholder.com/400x300'}
-                                    alt={selectedMovie.title}
-                                    className="selected-movie-image"
-                                />
-                            </div>
-                            <div className="selected-movie-info">
-                                <h3 className="selected-movie-title">
-                                    {selectedMovie.title}
-                                </h3>
-                                <p className="selected-movie-description">
-                                    {selectedMovie.description}
-                                </p>
-                                <div className="selected-movie-rating">
-                                    {Array(5).fill(null).map((_, i) => (
-                                        <span 
-                                            key={i} 
-                                            className={`star ${i < selectedMovie.rating ? 'filled' : ''}`}
-                                        >
-                                            {i < selectedMovie.rating ? '★' : '☆'}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                    ))}
+                </div>
             </div>
+
+            {showResult && selectedMovie && (
+                <div className="result-container">
+                    <div className="selected-movie-card">
+                        <img
+                            src={selectedMovie.image}
+                            alt={selectedMovie.title}
+                            className="selected-movie-image"
+                            onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/400x300';
+                            }}
+                        />
+                        <div className="selected-movie-info">
+                            <h3>{selectedMovie.title}</h3>
+                            <p>{selectedMovie.description}</p>
+                            <div className="rating">
+                                {Array(5).fill(null).map((_, i) => (
+                                    <span 
+                                        key={i} 
+                                        className={`star ${i < selectedMovie.rating ? 'filled' : ''}`}
+                                    >
+                                        {i < selectedMovie.rating ? '★' : '☆'}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
