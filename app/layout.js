@@ -20,9 +20,6 @@ export const metadata = {
   creator: "Opala Filmes",
   publisher: "Opala Filmes",
   robots: "index, follow",
-  themeColor: "#ffffff",
-  colorScheme: "dark light",
-  viewport: "width=device-width, initial-scale=1",
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -59,6 +56,8 @@ export const metadata = {
     images: ["/opala-filmes.png"]
   }
 };
+
+export { viewport } from './viewport'
 
 export default function RootLayout({ children }) {
   return (

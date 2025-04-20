@@ -10,23 +10,30 @@ function FloatingEmoji({ position, emoji, scale = 1 }) {
   useEffect(() => {
     function updatePosition() {
       const width = window.innerWidth
-      let xScale = 1
+      let xPosition = position[0]
+      let yPosition = position[1]
+      let finalScale = scale
       
       if (width <= 768) { // Mobile
-        xScale = 0.4
+        xPosition *= 0.4
+        yPosition *= 0.6
+        finalScale *= 0.8
       } else if (width <= 1024) { // Tablet
-        xScale = 0.6
+        xPosition *= 0.6
+        yPosition *= 0.8
+        finalScale *= 0.9
       } else { // Desktop
-        xScale = 1
+        // Mantém as posições originais para telas grandes
+        xPosition *= 1.2 // Aumenta um pouco para garantir que fique nos cantos
       }
 
-      setAdjustedPosition([position[0] * xScale, position[1], position[2]])
+      setAdjustedPosition([xPosition, yPosition, position[2]])
     }
 
     updatePosition()
     window.addEventListener('resize', updatePosition)
     return () => window.removeEventListener('resize', updatePosition)
-  }, [position])
+  }, [position, scale])
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
@@ -50,24 +57,24 @@ function Scene() {
       <pointLight position={[-10, 10, 5]} intensity={2} color="#0BDB72" />
       <pointLight position={[10, -10, 5]} intensity={2} color="#0BDB72" />
 
-      {/* Emojis com posições ajustadas */}
+      {/* Emojis nos cantos */}
       <FloatingEmoji 
-        position={[-12, 2, 0]} 
+        position={[-18, 10, 0]} // Superior esquerdo
         emoji="🎬"
         scale={2}
       />
       <FloatingEmoji 
-        position={[12, 2, 0]} 
+        position={[18, 10, 0]} // Superior direito
         emoji="🎥"
         scale={2}
       />
       <FloatingEmoji 
-        position={[-12, -8, 0]} 
+        position={[-18, -10, 0]} // Inferior esquerdo
         emoji="⭐"
         scale={1.5}
       />
       <FloatingEmoji 
-        position={[12, -8, 0]} 
+        position={[18, -10, 0]} // Inferior direito
         emoji="🎭"
         scale={1.5}
       />
@@ -76,28 +83,43 @@ function Scene() {
 }
 
 export function Background3D() {
-  const [fov, setFov] = useState(75)
+  const [cameraSettings, setCameraSettings] = useState({
+    position: [0, 0, 20],
+    fov: 75
+  })
 
   useEffect(() => {
-    function updateFov() {
-      if (window.innerWidth <= 768) {
-        setFov(90) // Aumenta o FOV em telas menores
+    function updateCamera() {
+      const width = window.innerWidth
+      if (width <= 768) {
+        setCameraSettings({
+          position: [0, 0, 15],
+          fov: 90
+        })
+      } else if (width <= 1024) {
+        setCameraSettings({
+          position: [0, 0, 18],
+          fov: 80
+        })
       } else {
-        setFov(75)
+        setCameraSettings({
+          position: [0, 0, 20],
+          fov: 75
+        })
       }
     }
 
-    updateFov()
-    window.addEventListener('resize', updateFov)
-    return () => window.removeEventListener('resize', updateFov)
+    updateCamera()
+    window.addEventListener('resize', updateCamera)
+    return () => window.removeEventListener('resize', updateCamera)
   }, [])
 
   return (
     <div className="background-3d">
       <Canvas
         camera={{ 
-          position: [0, 0, 20],
-          fov: fov,
+          position: cameraSettings.position,
+          fov: cameraSettings.fov,
         }}
         style={{
           position: 'fixed',
