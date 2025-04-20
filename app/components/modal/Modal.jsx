@@ -36,7 +36,7 @@ export function Modal({isOpen, onClose, onSelectValue, images}) {
             className="modal-overlay"
         >
             <div className="modal-container">
-                <Dialog.Panel className="modal-panel">
+                <Dialog.Panel className="modal-panel rating-modal">
                     <button 
                         onClick={onClose}
                         className="modal-close-button"

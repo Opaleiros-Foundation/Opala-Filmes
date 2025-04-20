@@ -453,3 +453,28 @@
     font-size: 1.1rem;
   }
 }
+
+.rating-modal {
+  height: auto !important; /* Sobrescreve a altura fixa */
+  min-height: auto !important;
+  max-height: 90vh;
+  padding: 2rem !important;
+}
+
+.rating-modal .modal-rating-grid {
+  margin-top: 1rem;
+}
+
+/* Ajuste responsivo específico para o modal de avaliação */
+@media (max-width: 768px) {
+  .rating-modal {
+    width: 95%;
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .rating-modal {
+    padding: 1rem !important;
+  }
+}
