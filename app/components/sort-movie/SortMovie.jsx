@@ -5,6 +5,7 @@ const MoviePicker = ({ cardsData }) => {
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [isScanning, setIsScanning] = useState(false);
     const carouselRef = useRef(null);
 
     // Cria um array com 3 repetições dos filmes para criar efeito infinito
@@ -13,33 +14,39 @@ const MoviePicker = ({ cardsData }) => {
     const selectRandomMovie = () => {
         if (!cardsData?.length || isAnimating) return;
         
-        // Reset do estado
         setIsAnimating(true);
         setShowResult(false);
+        setIsScanning(true);
         
         // Seleciona um filme aleatório do array original
         const randomIndex = Math.floor(Math.random() * cardsData.length);
         const movie = cardsData[randomIndex];
         setSelectedMovie(movie);
 
-        // Calcula quantas posições o carrossel deve girar
+        // Calcula a largura do card + margem baseado no tamanho da tela
+        const getCardWidth = () => {
+            const width = window.innerWidth;
+            if (width <= 480) return 154; // 140px + 14px margin
+            if (width <= 768) return 176; // 160px + 16px margin
+            if (width <= 1024) return 198; // 180px + 18px margin
+            return 220; // 200px + 20px margin (desktop)
+        };
+
+        // Calcula a distância total do scroll
+        const cardWidth = getCardWidth();
         const spins = 2; // Número de voltas completas
         const totalCards = cardsData.length;
-        const spinDistance = (spins * totalCards + randomIndex) * 220; // 220px é a largura do card
+        const spinDistance = (spins * totalCards + randomIndex) * cardWidth;
 
-        // Aplica a animação
+        // Aplica a transformação
         if (carouselRef.current) {
-            carouselRef.current.style.transition = 'none';
-            carouselRef.current.style.transform = 'translateX(0)';
-            carouselRef.current.offsetHeight; // Força reflow
-            
-            carouselRef.current.style.transition = 'transform 4s cubic-bezier(0.5, 0, 0.5, 1)';
             carouselRef.current.style.transform = `translateX(-${spinDistance}px)`;
         }
 
-        // Finaliza a animação
+        // Timer para mostrar o resultado
         setTimeout(() => {
             setIsAnimating(false);
+            setIsScanning(false);
             setShowResult(true);
         }, 4000);
     };
