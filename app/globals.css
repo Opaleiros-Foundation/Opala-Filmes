@@ -5,6 +5,16 @@
   --opal-white: #E8E9F3;
   --opal-black: #1A1B26;
   
+  /* Novas variáveis para o tema retrô-cinéfilo */
+  --deep-space: #0A0B14;
+  --deep-space-light: #1E1F2E;
+  --cosmic-white: #EAEFF0;
+  --neon-green: #0BDB72;
+  --neon-green-alt: #00FF84;
+  --neon-green-dim: #098B48;
+  --neon-green-glow: rgba(11, 219, 114, 0.5);
+  --ambient-glow: rgba(234, 239, 240, 0.1);
+
   /* Cores primárias */
   --primary-50: #F0F7FF;
   --primary-100: #C2E7FF;

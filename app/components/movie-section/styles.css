@@ -1,0 +1,117 @@
+.movie-section {
+  --section-padding: 2rem;
+  padding: var(--section-padding);
+  background: var(--deep-space);
+  position: relative;
+  overflow: hidden;
+}
+
+.movie-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.movie-section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  color: var(--cosmic-white);
+  text-shadow: 
+    0 0 5px var(--neon-green-glow),
+    0 0 10px var(--neon-green-glow),
+    0 0 20px var(--neon-green-dim);
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+}
+
+.movies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem; /* Aumentado o gap */
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.empty-message {
+  font-size: 1.5rem;
+  color: var(--cosmic-white);
+  text-align: center;
+  padding: 3rem;
+  background: var(--deep-space-light);
+  border: 2px solid var(--neon-green-dim);
+  border-radius: 8px;
+  box-shadow: 
+    0 0 15px var(--neon-green-dim),
+    inset 0 0 10px var(--neon-green-dim);
+}
+
+.movie-link {
+  flex: 0 0 calc(33.333% - 2rem); /* Ajustado para considerar o novo gap */
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  max-width: 350px; /* Limitando a largura máxima */
+}
+
+.movie-link:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 1200px) {
+  .movie-link {
+    flex: 0 0 calc(50% - 1.5rem); /* 2 colunas */
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-section {
+    --section-padding: 1rem;
+  }
+
+  .movie-section-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .movies-grid {
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .movie-link {
+    flex: 0 0 calc(50% - 1rem);
+  }
+
+  .movie-link:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-section-title {
+    font-size: 1.75rem;
+  }
+
+  .movies-grid {
+    gap: 1.5rem;
+  }
+
+  .empty-message {
+    font-size: 1.25rem;
+    padding: 2rem;
+  }
+
+  .movie-link {
+    flex: 0 0 100%; /* 1 coluna */
+  }
+}

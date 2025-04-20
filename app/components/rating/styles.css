@@ -1,0 +1,19 @@
+.stars-container {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.star {
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.star.filled {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.star.empty {
+    color: var(--deep-space-light);
+    opacity: 0.5;
+}

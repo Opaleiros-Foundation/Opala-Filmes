@@ -1,9 +1,7 @@
-// components/Card.js
 import { RenderStars } from "@/app/components/rating/RenderStarts";
-import './card/styles.css';
+import './styles.css';
 
 export const Card = ({ image, title, description, rating }) => {
-    // Função para truncar o texto da descrição
     const truncateText = (text, maxLength) => {
         if (!text) return '';
         if (text.length <= maxLength) return text;
@@ -12,7 +10,6 @@ export const Card = ({ image, title, description, rating }) => {
 
     return (
         <div className="movie-card">
-            {/* Cantos decorativos */}
             <div className="movie-card-corner movie-card-corner-tl"></div>
             <div className="movie-card-corner movie-card-corner-tr"></div>
             <div className="movie-card-corner movie-card-corner-bl"></div>
@@ -23,7 +20,7 @@ export const Card = ({ image, title, description, rating }) => {
                 src={image} 
                 alt={title}
                 onError={(e) => {
-                    e.target.src = '/placeholder-movie.jpg'; // Adicione uma imagem de placeholder
+                    e.target.src = '/placeholder-movie.jpg';
                 }}
             />
             <div className="movie-card-content">
