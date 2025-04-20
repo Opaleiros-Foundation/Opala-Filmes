@@ -9,6 +9,8 @@
   --film-strip-color: rgba(234, 239, 240, 0.1);
   --vignette-color: rgba(2, 4, 32, 0.95);
   --ambient-glow: rgba(11, 219, 114, 0.15);
+  position: relative;
+  z-index: 1000; /* Valor alto para garantir que fique acima de tudo */
 }
 
 /* Animação de Vinheta mais dramática */
@@ -35,8 +37,8 @@
 
 .header-background {
   position: relative;
-  z-index: 10; /* Aumentando o z-index para ficar acima do Background3D */
   background: var(--deep-space);
+  z-index: 1001; /* Entre o container principal e os elementos de navegação */
   animation: vinhetteBreathing 0.25s ease-in-out infinite;
   overflow: hidden;
 }
@@ -149,9 +151,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 1.5rem;
   position: relative;
-  z-index: 10; /* Garantindo que os elementos do nav também fiquem acima */
+  z-index: 1002; /* Maior que o background para garantir interatividade */
 }
 
 .nav-menu {
@@ -197,7 +198,7 @@
 .film-strip {
   height: 6px;
   position: relative;
-  z-index: 10; /* Incluindo a faixa de filme também */
+  z-index: 1001;
   background-image: repeating-linear-gradient(
     90deg,
     transparent 0px,
@@ -208,6 +209,16 @@
   box-shadow: 
     0 0 10px var(--ambient-glow),
     0 0 20px var(--neon-green-glow);
+  position: relative;
+  z-index: 1001;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 40px,
+    var(--neon-green) 40px,
+    var(--neon-green) 45px
+  );
+  opacity: 0.5;
 }
 
 .marquee-text {
@@ -234,7 +245,7 @@
 }
 
 .vintage-border {
-  position: relative;
+  position: relatative;
 }
 
 .vintage-border::after {
@@ -263,9 +274,159 @@
   color: var(--neon-green);
 }
 
-/* Ajuste responsivo para telas menores */
-@media (max-width: 640px) {
-  .nav-logo img {
-    height: 4rem; /* 64px */
+/* Estilização do menu mobile */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(2, 4, 32, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--neon-green);
+  box-shadow: 
+    0 0 15px var(--neon-green-glow),
+    inset 0 0 10px var(--neon-green-glow);
+  border-radius: 8px;
+  margin: 0.5rem;
+  overflow: hidden;
+  transform-origin: top;
+  animation: slideDown 0.3s ease-out;
+  z-index: 1003; /* Maior que todos os outros elementos */
+}
+
+.mobile-menu-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--neon-green);
+  border-radius: 8px;
+  background: transparent;
+  transition: all 0.3s ease;
+  z-index: 1004; /* Garantir que o botão fique sempre clicável */
+}
+
+.mobile-menu-button:hover {
+  background: var(--neon-green);
+  color: var(--deep-space);
+  box-shadow: 0 0 15px var(--neon-green-glow);
+}
+
+.mobile-nav-item {
+  position: relative;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(11, 219, 114, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-item:hover {
+  background: rgba(11, 219, 114, 0.1);
+  padding-left: 2rem;
+}
+
+.mobile-nav-item.active {
+  background: rgba(11, 219, 114, 0.15);
+  color: var(--neon-green);
+}
+
+/* Animações */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .nav-container {
+    padding: 0.5rem;
+  }
+
+  .nav-logo img {
+    height: 3.5rem;
+  }
+
+  .add-movie-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .add-movie-button .icon-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo img {
+    height: 3rem;
+  }
+
+  .mobile-nav-item {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Efeito de filme retrô */
+.film-strip {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 40px,
+    var(--neon-green) 40px,
+    var(--neon-green) 45px
+  );
+  opacity: 0.5;
+}
+
+/* Efeito de scanline */
+.header-background {
+  position: relative;
+  background: var(--deep-space);
+}
+
+.header-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(11, 219, 114, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  animation: scanline 6s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 -100vh;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
+}
+
+/* Garantir que os efeitos de background fiquem abaixo do conteúdo */
+.header-background::before,
+.header-background::after {
+  z-index: -1;
 }
