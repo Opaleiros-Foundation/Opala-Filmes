@@ -126,20 +126,22 @@ export default function Page({params}) {
     }
     return (
         <div className="flex flex-col">
-            <NavBar navigation={[]} onClick={() => {
-            }} isHome={false}/>
+            <NavBar navigation={[]} onClick={() => {}} isHome={false}/>
             {alertMessage && (
                 <Alert alertMessage={alertMessage} isSuccess={!isError}/>
             )}
 
-            <MovieShow movieData={currentMovie}/>
-            <div className="flex justify-center mt-6">
-                <MovieShowButtons onVoteClickButton={() => setIsModalOpen(true)}
-                                  onWatchClickButton={() => updateToWatched(currentMovie)}
-                                  wasWatched={currentMovie.watched}/>
-            </div>
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
-                   onSelectValue={(value) => handleImageClick(value)} images={images}/>
+            <MovieShow 
+                movieData={currentMovie}
+                onVoteClick={() => setIsModalOpen(true)}
+                onWatchClick={() => updateToWatched(currentMovie)}
+            />
+            <Modal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)}
+                onSelectValue={(value) => handleImageClick(value)} 
+                images={images}
+            />
         </div>
     )
 }
