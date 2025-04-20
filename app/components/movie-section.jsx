@@ -5,6 +5,14 @@ import './movie-section/styles.css';
 export const MovieSection = ({ cardsData, tittle }) => {
     return (
         <section className="movie-section">
+            {/* Elementos decorativos */}
+            <div className="floating-decoration floating-decoration-left decoration-glow">
+                🎬
+            </div>
+            <div className="floating-decoration floating-decoration-right decoration-glow">
+                🎥
+            </div>
+
             <h1 className="movie-section-title">{tittle}</h1>
             <div className="movies-grid">
                 {cardsData.length === 0 ? (
