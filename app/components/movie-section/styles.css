@@ -1,14 +1,42 @@
 .movie-section {
   --section-padding: 2rem;
   padding: var(--section-padding);
-  background: var(--deep-space);
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 4, 32, 0.9),
+    rgba(2, 4, 32, 0.95)
+  );
+  z-index: 1;
+}
+
+.background-3d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.background-3d::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(2, 4, 32, 0.5) 70%
+  );
+  pointer-events: none;
 }
 
 /* Elemento decorativo flutuante */
@@ -139,10 +167,16 @@
   transition: transform 0.3s ease;
   max-width: 350px;
   min-width: 280px;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
 .movie-link:hover {
   transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(11, 219, 114, 0.15);
 }
 
 @media (max-width: 1200px) {

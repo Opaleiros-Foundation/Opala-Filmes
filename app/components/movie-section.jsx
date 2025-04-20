@@ -1,18 +1,13 @@
 import { Card } from "@/app/components/Card";
 import Link from "next/link";
+import { Background3D } from './movie-section/Background3D';
 import './movie-section/styles.css';
 
 export const MovieSection = ({ cardsData, tittle }) => {
     return (
         <section className="movie-section">
-            {/* Elementos decorativos */}
-            <div className="floating-decoration floating-decoration-left decoration-glow">
-                🎬
-            </div>
-            <div className="floating-decoration floating-decoration-right decoration-glow">
-                🎥
-            </div>
-
+            <Background3D />
+            
             <h1 className="movie-section-title">{tittle}</h1>
             <div className="movies-grid">
                 {cardsData.length === 0 ? (
