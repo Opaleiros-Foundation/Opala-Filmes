@@ -1,8 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cores base inspiradas em Opala */
+  --opal-white: #E8E9F3;
+  --opal-black: #1A1B26;
+  
+  /* Novas variáveis para o tema retrô-cinéfilo */
+  --deep-space: #0A0B14;
+  --deep-space-light: #1E1F2E;
+  --cosmic-white: #EAEFF0;
+  --neon-green: #0BDB72;
+  --neon-green-alt: #00FF84;
+  --neon-green-dim: #098B48;
+  --neon-green-glow: rgba(11, 219, 114, 0.5);
+  --ambient-glow: rgba(234, 239, 240, 0.1);
+
+  /* Cores primárias */
+  --primary-50: #F0F7FF;
+  --primary-100: #C2E7FF;
+  --primary-200: #99D6FF;
+  --primary-300: #66C4FF;
+  --primary-400: #33B3FF;
+  --primary-500: #00A3FF;  /* Cor principal - azul opala */
+  --primary-600: #0082CC;
+  --primary-700: #006299;
+  --primary-800: #004166;
+  --primary-900: #002133;
+
+  /* Cores de destaque */
+  --accent-iridescent: #FF7E67;  /* Laranja iridescente */
+  --accent-shimmer: #45C4B0;     /* Verde água brilhante */
+  --accent-flash: #9B72AA;       /* Roxo perolado */
+  
+  /* Cores de fundo */
+  --background: var(--opal-white);
+  --foreground: var(--opal-black);
+  
+  /* Cores de superfície */
+  --surface-light: #F5F6FA;
+  --surface-medium: #E1E2F0;
+  --surface-dark: #C8CAE3;
+
+  /* Cores de estado */
+  --success: #2DD4BF;
+  --warning: #FBC473;
+  --error: #FF6B6B;
+  --info: #60A5FA;
+
+  /* Cores de texto */
+  --text-primary: var(--opal-black);
+  --text-secondary: #4A4B57;
+  --text-tertiary: #9698A3;
+  --text-inverse: var(--opal-white);
 }
 
 @theme inline {
@@ -14,13 +63,181 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--opal-black);
+    --foreground: var(--opal-white);
+    
+    /* Ajustes para modo escuro */
+    --surface-light: #2A2B36;
+    --surface-medium: #1F2028;
+    --surface-dark: #16171D;
+    
+    /* Texto no modo escuro */
+    --text-primary: var(--opal-white);
+    --text-secondary: #B8B9C3;
+    --text-tertiary: #6C6D7A;
   }
+}
+
+/* Gradientes de Opala */
+.gradient-opal {
+  background: linear-gradient(
+    135deg,
+    var(--primary-300) 0%,
+    var(--accent-shimmer) 50%,
+    var(--accent-flash) 100%
+  );
+}
+
+.gradient-opal-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--surface-light) 0%,
+    var(--surface-medium) 100%
+  );
+}
+
+/* Efeitos de Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animações suaves */
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Estilo retrô para bordas e elementos */
+.retro-border {
+  border: 2px solid var(--foreground);
+  box-shadow: 4px 4px 0 var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.retro-border:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--foreground);
+}
+
+/* Efeito de brilho iridescente */
+.iridescent {
+  position: relative;
+  overflow: hidden;
+}
+
+.iridescent::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    transparent 100%
+  );
+  animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilo para seleção de texto */
+::selection {
+  background: var(--neon-green);
+  color: var(--deep-space);
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: var(--neon-green);
+  color: var(--deep-space);
+  text-shadow: none;
+}
+
+/* Estilização da scrollbar - Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: var(--deep-space);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--deep-space-light);
+  border: 1px solid var(--neon-green-dim);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    45deg,
+    var(--neon-green-dim),
+    var(--neon-green)
+  );
+  border-radius: 6px;
+  border: 2px solid var(--deep-space);
+  box-shadow: 
+    inset 0 0 6px var(--neon-green-glow),
+    0 0 8px var(--neon-green-glow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    45deg,
+    var(--neon-green),
+    var(--neon-green-alt)
+  );
+  box-shadow: 
+    inset 0 0 8px var(--neon-green-glow),
+    0 0 12px var(--neon-green-glow);
+}
+
+/* Estilização da scrollbar - Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-green) var(--deep-space-light);
+}
+
+/* Estilo para quando a scrollbar encontra um elemento */
+::-webkit-scrollbar-corner {
+  background: var(--deep-space);
+}
+
+/* Estilo para scrollbar horizontal */
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+/* Animação suave no hover da scrollbar */
+::-webkit-scrollbar-thumb {
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para quando a página está scrollando */
+::-webkit-scrollbar-thumb:active {
+  background: var(--neon-green);
+  box-shadow: 
+    inset 0 0 10px var(--neon-green-glow),
+    0 0 15px var(--neon-green-glow);
 }

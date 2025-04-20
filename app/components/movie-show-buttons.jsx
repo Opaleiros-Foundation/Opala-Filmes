@@ -4,19 +4,18 @@ export const MovieShowButtons = ({onVoteClickButton, onWatchClickButton, wasWatc
         <div className="flex gap-4">
             {!wasWatched && (
                 <button
-                    className="px-6 py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
+                    className="action-button watch-button flex-1 group relative"
                     onClick={onWatchClickButton}>
-                    Marcar como assistido
+                    <span className="relative z-10">Marcar como assistido</span>
                 </button>
             )}
             {wasWatched && (
                 <button
-                    className="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
+                    className="action-button vote-button flex-1 group relative"
                     onClick={onVoteClickButton}>
-                    Votar
+                    <span className="relative z-10">Votar</span>
                 </button>
             )}
-
         </div>
     )
 }

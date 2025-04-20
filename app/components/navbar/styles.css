@@ -1,0 +1,432 @@
+.retro-cinema {
+  --neon-green: #0BDB72;
+  --neon-green-alt: #0DDA5E;
+  --deep-space: #020420;
+  --cosmic-white: #EAEFF0;
+  --neon-green-glow: rgba(11, 219, 114, 0.5);
+  --neon-green-dim: rgba(11, 219, 114, 0.2);
+  --deep-space-light: rgba(2, 4, 32, 0.9);
+  --film-strip-color: rgba(234, 239, 240, 0.1);
+  --vignette-color: rgba(2, 4, 32, 0.95);
+  --ambient-glow: rgba(11, 219, 114, 0.15);
+  position: relative;
+  z-index: 1000; /* Valor alto para garantir que fique acima de tudo */
+}
+
+/* Animação de Vinheta mais dramática */
+@keyframes vinhetteBreathing {
+  0%, 100% { 
+    box-shadow: 
+      inset 0 0 150px 45px var(--vignette-color),
+      inset 0 0 50px 10px var(--ambient-glow),
+      0 0 25px 5px var(--ambient-glow);
+  }
+  50% { 
+    box-shadow: 
+      inset 0 0 200px 60px var(--vignette-color),
+      inset 0 0 70px 15px var(--ambient-glow),
+      0 0 35px 10px var(--ambient-glow);
+  }
+}
+
+@keyframes backgroundShimmer {
+  0% { transform: translateX(-100%) rotate(-45deg); }
+  50% { transform: translateX(100%) rotate(-45deg); }
+  100% { transform: translateX(-100%) rotate(-45deg); }
+}
+
+.header-background {
+  position: relative;
+  background: var(--deep-space);
+  z-index: 1001; /* Entre o container principal e os elementos de navegação */
+  animation: vinhetteBreathing 0.25s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.header-background::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  right: -100%;
+  bottom: -100%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    var(--ambient-glow) 25%,
+    var(--neon-green-glow) 50%,
+    var(--ambient-glow) 75%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  animation: backgroundShimmer 15s linear infinite;
+  pointer-events: none;
+}
+
+.header-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Animação da Claquete */
+@keyframes clapperboard {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-10deg); }
+  20% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.nav-menu-link {
+  position: relative;
+  color: var(--cosmic-white);
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-menu-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-green);
+  transition: width 0.3s ease;
+}
+
+.nav-menu-link:hover {
+  color: var(--neon-green);
+}
+
+.nav-menu-link:hover::after {
+  width: 100%;
+}
+
+.add-movie-button {
+  position: relative;
+  background: var(--deep-space);
+  border: 2px solid var(--neon-green);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.add-movie-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-green-glow),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.add-movie-button:hover::before {
+  left: 100%;
+}
+
+.add-movie-button .icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  animation: clapperboard 2s infinite;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  z-index: 1002; /* Maior que o background para garantir interatividade */
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-logo {
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo a {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  transition: filter 0.3s ease;
+}
+
+.nav-logo:hover img {
+  filter: brightness(1.2);
+}
+
+@keyframes filmGrain {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.15; }
+}
+
+.film-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--film-grain);
+  opacity: 0.1;
+  animation: filmGrain 0.5s steps(1) infinite;
+  pointer-events: none;
+}
+
+.film-strip {
+  height: 6px;
+  position: relative;
+  z-index: 1001;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 12px,
+    var(--film-strip-color) 12px,
+    var(--film-strip-color) 15px
+  );
+  box-shadow: 
+    0 0 10px var(--ambient-glow),
+    0 0 20px var(--neon-green-glow);
+  position: relative;
+  z-index: 1001;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 40px,
+    var(--neon-green) 40px,
+    var(--neon-green) 45px
+  );
+  opacity: 0.5;
+}
+
+.marquee-text {
+  text-shadow: 
+    2px 2px 0px var(--neon-green),
+    -2px -2px 0px var(--neon-green-alt);
+  letter-spacing: 2px;
+}
+
+.vintage-button {
+  background: var(--deep-space);
+  box-shadow: 
+    inset 0 0 10px var(--neon-green-dim),
+    0 0 15px var(--neon-green-glow);
+  text-shadow: 0 0 5px var(--neon-green);
+  border: 1px solid var(--neon-green-dim);
+}
+
+.vintage-button:hover {
+  box-shadow: 
+    inset 0 0 15px var(--neon-green-dim),
+    0 0 20px var(--neon-green-glow);
+  border-color: var(--neon-green);
+}
+
+.vintage-border {
+  position: relatative;
+}
+
+.vintage-border::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--neon-green), var(--neon-green-alt));
+  z-index: -1;
+  opacity: 0.5;
+  border-radius: inherit;
+}
+
+@keyframes neonPulse {
+  0%, 100% { 
+    opacity: 1;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+  }
+  50% { 
+    opacity: 0.8;
+    text-shadow: 0 0 20px var(--neon-green-glow);
+  }
+}
+
+.neon-flicker {
+  animation: neonPulse 2s infinite;
+  color: var(--neon-green);
+}
+
+/* Estilização do menu mobile */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(2, 4, 32, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--neon-green);
+  box-shadow: 
+    0 0 15px var(--neon-green-glow),
+    inset 0 0 10px var(--neon-green-glow);
+  border-radius: 8px;
+  margin: 0.5rem;
+  overflow: hidden;
+  transform-origin: top;
+  animation: slideDown 0.3s ease-out;
+  z-index: 1003; /* Maior que todos os outros elementos */
+}
+
+.mobile-menu-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--neon-green);
+  border-radius: 8px;
+  background: transparent;
+  transition: all 0.3s ease;
+  z-index: 1004; /* Garantir que o botão fique sempre clicável */
+}
+
+.mobile-menu-button:hover {
+  background: var(--neon-green);
+  color: var(--deep-space);
+  box-shadow: 0 0 15px var(--neon-green-glow);
+}
+
+.mobile-nav-item {
+  position: relative;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(11, 219, 114, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-item:hover {
+  background: rgba(11, 219, 114, 0.1);
+  padding-left: 2rem;
+}
+
+.mobile-nav-item.active {
+  background: rgba(11, 219, 114, 0.15);
+  color: var(--neon-green);
+}
+
+/* Animações */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .nav-container {
+    padding: 0.5rem;
+  }
+
+  .nav-logo img {
+    height: 3.5rem;
+  }
+
+  .add-movie-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .add-movie-button .icon-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo img {
+    height: 3rem;
+  }
+
+  .mobile-nav-item {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Efeito de filme retrô */
+.film-strip {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--deep-space) 0px,
+    var(--deep-space) 40px,
+    var(--neon-green) 40px,
+    var(--neon-green) 45px
+  );
+  opacity: 0.5;
+}
+
+/* Efeito de scanline */
+.header-background {
+  position: relative;
+  background: var(--deep-space);
+}
+
+.header-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(11, 219, 114, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  animation: scanline 6s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 -100vh;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
+}
+
+/* Garantir que os efeitos de background fiquem abaixo do conteúdo */
+.header-background::before,
+.header-background::after {
+  z-index: -1;
+}
