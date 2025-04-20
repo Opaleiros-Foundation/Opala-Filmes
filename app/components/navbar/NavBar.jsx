@@ -37,7 +37,7 @@ export const NavBar = ({navigation, onClick, isHome}) => {
                                 <Image
                                     alt="Opaleiros"
                                     src={Logo}
-                                    className="h-24 w-auto neon-flicker" // Aumentado de h-16 para h-24
+                                    className="h-24 w-auto neon-flicker"
                                     priority
                                 />
                             </Link>
@@ -57,7 +57,7 @@ export const NavBar = ({navigation, onClick, isHome}) => {
                                                 'transition-all duration-300',
                                                 item.current
                                                     ? 'text-[#0BDB72]'
-                                                    : 'text-[#EAEFF0]'
+                                                    : 'text-[#EAEFF0] hover:text-[#0BDB72]'
                                             )}
                                         >
                                             {item.name}
@@ -69,7 +69,8 @@ export const NavBar = ({navigation, onClick, isHome}) => {
                             <Link href={'/'}>
                                 <button 
                                     className="nav-menu-link px-6 py-3
-                                    flex items-center space-x-3"
+                                    flex items-center space-x-3
+                                    text-[#EAEFF0] hover:text-[#0BDB72]"
                                 >
                                     <FaLongArrowAltLeft className="text-lg" />
                                     <span>Voltar</span>
@@ -106,8 +107,13 @@ export const NavBar = ({navigation, onClick, isHome}) => {
                             key={item.name}
                             as="button"
                             onClick={() => item.onClick(item.name)}
-                            className="nav-menu-link w-full text-left px-5 py-4
-                            uppercase tracking-wider transition-all duration-300"
+                            className={classNames(
+                                'nav-menu-link w-full text-left px-5 py-4',
+                                'uppercase tracking-wider transition-all duration-300',
+                                item.current
+                                    ? 'text-[#0BDB72]'
+                                    : 'text-[#EAEFF0] hover:text-[#0BDB72]'
+                            )}
                         >
                             {item.name}
                         </DisclosureButton>
