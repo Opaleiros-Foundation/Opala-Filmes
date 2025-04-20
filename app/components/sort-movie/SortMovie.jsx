@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { RenderStars } from "@/app/components/rating/RenderStars"; // Corrigindo o import
+import '@/app/components/rating/styles.css';
 import './styles.css';
 
 const MoviePicker = ({ cardsData }) => {
@@ -101,16 +103,6 @@ const MoviePicker = ({ cardsData }) => {
                         <div className="selected-movie-info">
                             <h3>{selectedMovie.title}</h3>
                             <p>{selectedMovie.description}</p>
-                            <div className="rating">
-                                {Array(5).fill(null).map((_, i) => (
-                                    <span 
-                                        key={i} 
-                                        className={`star ${i < selectedMovie.rating ? 'filled' : ''}`}
-                                    >
-                                        {i < selectedMovie.rating ? '★' : '☆'}
-                                    </span>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 </div>

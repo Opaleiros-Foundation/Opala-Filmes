@@ -17,16 +17,18 @@
 
 .modal-panel {
   position: relative;
-  width: 100%;
-  max-width: 800px; /* Aumentado de 600px para 800px para acomodar imagens maiores */
+  width: 95%; /* Aumentado para 95% da largura da tela */
+  max-width: 1600px; /* Aumentado significativamente o máximo */
+  height: 800px; /* Altura fixa mais adequada */
   background: var(--deep-space);
   border: 2px solid var(--neon-green);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 3rem; /* Aumentado padding geral */
   box-shadow: 
     0 0 20px var(--neon-green-glow),
     inset 0 0 10px var(--neon-green-glow);
   animation: modalAppear 0.3s ease-out;
+  overflow-y: auto; /* Adiciona scroll se necessário */
 }
 
 .modal-close-button {
@@ -142,6 +144,12 @@
   .rating-button {
     width: 100px;
   }
+
+  .modal-panel {
+    width: 98%;
+    height: 90vh;
+    padding: 2rem; /* Reduz padding em telas menores */
+  }
 }
 
 @media (max-width: 480px) {
@@ -155,7 +163,7 @@
   }
 
   .modal-panel {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 }
 
@@ -407,4 +415,41 @@
 .rating-excellent .rating-value {
   color: var(--neon-green);
   text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.selected-movie-content {
+  display: flex;
+  gap: 2rem;
+  height: auto; /* Remove altura fixa */
+}
+
+.selected-movie-poster {
+  width: 300px;
+  height: 450px; /* Altura fixa proporcional */
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid var(--cosmic-white);
+}
+
+/* Mantendo a responsividade */
+@media (max-width: 768px) {
+  .modal-panel {
+    width: 98%; /* Quase tela cheia em mobile */
+    height: 90vh; /* Em telas menores, usa porcentagem da viewport */
+    padding: 1.5rem;
+  }
+
+  .search-result-item {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .result-poster {
+    width: 80px;
+    height: 120px;
+  }
+
+  .result-title {
+    font-size: 1.1rem;
+  }
 }

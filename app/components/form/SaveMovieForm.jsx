@@ -1,93 +1,129 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { searchMovies } from '@/app/services/tmdb';
+import { RenderStars } from "@/app/components/rating/RenderStars";
+import './styles.css';
 
 export const SaveMovieForm = ({ onSubmit }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [watched, setWatched] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(async () => {
+            if (searchQuery.length >= 3) {
+                setIsLoading(true);
+                const results = await searchMovies(searchQuery);
+                setSearchResults(results);
+                setIsLoading(false);
+            } else {
+                setSearchResults([]);
+            }
+        }, 500);
+
+        return () => clearTimeout(delayDebounce);
+    }, [searchQuery]);
+
+    const handleMovieSelect = (movie) => {
+        setSelectedMovie(movie);
+        setSearchResults([]);
+        setSearchQuery('');
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
 
-        const newErrors = {};
-        if (!title) newErrors.title = 'Título é obrigatório';
-        if (!description) newErrors.description = 'Descrição é obrigatória';
-        if (!imageUrl) newErrors.imageUrl = 'URL da imagem é obrigatória';
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+        if (!selectedMovie) {
+            setErrors({ search: 'Selecione um filme da lista' });
             return;
         }
 
-        onSubmit({ title, description, imageUrl, watched });
+        onSubmit({
+            title: selectedMovie.title,
+            description: selectedMovie.description,
+            imageUrl: selectedMovie.imageUrl,
+            watched: false
+        });
     };
 
     return (
-        <form className="w-full max-w-lg text-center" onSubmit={handleSubmit}>
-            <div className="flex flex-wrap mb-4"> {/* Reduzido o margin bottom */}
-                <div className="w-full mb-4"> {/* Reduzido o margin bottom */}
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        htmlFor="movie-title">
-                        Título do Filme
-                    </label>
+        <form className="save-movie-form" onSubmit={handleSubmit}>
+            <div className="search-container">
+                <label className="search-label">
+                    Buscar Filme
+                </label>
+                <div className="search-input-container">
                     <input
-                        className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errors.title ? 'border-red-500' : 'border-gray-200'} rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white`}
-                        id="movie-title" type="text" placeholder="Título do filme"
-                        value={title} onChange={(e) => setTitle(e.target.value)} />
-                    {errors.title && <p className="text-red-500 text-xs italic">{errors.title}</p>}
+                        className="search-input"
+                        type="text"
+                        placeholder="Digite o nome do filme..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {isLoading && (
+                        <div className="loading-indicator">
+                            <div className="spinner"></div>
+                        </div>
+                    )}
                 </div>
+                {errors.search && (
+                    <p className="error-message">{errors.search}</p>
+                )}
+                
+                {searchResults.length > 0 && (
+                    <div className="search-results">
+                        {searchResults.map((movie) => (
+                            <div
+                                key={movie.tmdbId}
+                                className="search-result-item"
+                                onClick={() => handleMovieSelect(movie)}
+                            >
+                                {movie.imageUrl && (
+                                    <img
+                                        src={movie.imageUrl}
+                                        alt={movie.title}
+                                        className="result-poster"
+                                    />
+                                )}
+                                <div className="result-info">
+                                    <div className="result-title">{movie.title}</div>
+                                    <div className="result-year">
+                                        {movie.releaseDate?.split('-')[0]}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
-            <div className="flex flex-wrap mb-4"> {/* Reduzido o margin bottom */}
-                <div className="w-full mb-4"> {/* Reduzido o margin bottom */}
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        htmlFor="movie-description">
-                        Descrição
-                    </label>
-                    <textarea
-                        className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errors.description ? 'border-red-500' : 'border-gray-200'} rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white`}
-                        id="movie-description" placeholder="Descrição do filme"
-                        value={description} onChange={(e) => setDescription(e.target.value)} />
-                    {errors.description && <p className="text-red-500 text-xs italic">{errors.description}</p>}
+
+            {selectedMovie && (
+                <div className="selected-movie">
+                    <div className="selected-movie-content">
+                        {selectedMovie.imageUrl && (
+                            <img
+                                src={selectedMovie.imageUrl}
+                                alt={selectedMovie.title}
+                                className="selected-movie-poster"
+                            />
+                        )}
+                        <div className="selected-movie-info">
+                            <h3 className="selected-movie-title">{selectedMovie.title}</h3>
+                            <p className="selected-movie-description">
+                                {selectedMovie.description}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="flex flex-wrap mb-4"> {/* Reduzido o margin bottom */}
-                <div className="w-full mb-4"> {/* Reduzido o margin bottom */}
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        htmlFor="image-url">
-                        URL da Imagem
-                    </label>
-                    <input
-                        className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${errors.imageUrl ? 'border-red-500' : 'border-gray-200'} rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white`}
-                        id="image-url" type="text" placeholder="https://link-da-imagem.com"
-                        value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-                    {errors.imageUrl && <p className="text-red-500 text-xs italic">{errors.imageUrl}</p>}
-                </div>
-            </div>
-            <div className="flex flex-wrap mb-4"> {/* Reduzido o margin bottom */}
-                <div className="w-full mb-4"> {/* Reduzido o margin bottom */}
-                    <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        htmlFor="watched-select">
-                        Assistido
-                    </label>
-                    <select
-                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="watched-select"
-                        value={watched} onChange={(e) => setWatched(e.target.value === 'true')}>
-                        <option value="false">Não</option>
-                        <option value="true">Sim</option>
-                    </select>
-                </div>
-            </div>
-            <div className="flex justify-center mt-4"> {/* Reduzido o margin top */}
+            )}
+
+            <div className="form-actions">
                 <button
-                    className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                    type="submit">
+                    className="save-button"
+                    type="submit"
+                >
                     Salvar Filme
                 </button>
             </div>

@@ -361,17 +361,48 @@
 
 .rating {
     display: flex;
-    gap: 0.5rem;
-    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 1.5rem;
+    background: #0003;
+    border-radius: 8px;
+    justify-content: center;
 }
 
-.star {
-    color: var(--deep-space-light);
-    text-shadow: 0 0 5px var(--neon-green-dim);
+.rating-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.star.filled {
+.rating-value {
+    font-family: var(--font-geist-mono);
+    font-size: 1.75rem;
     color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.votes-count {
+    font-size: 1rem;
+    opacity: 0.8;
+    color: var(--cosmic-white);
+}
+
+/* Removendo TODOS os estilos de estrelas deste arquivo */
+.selected-movie-info .star,
+.selected-movie-info .star.filled,
+.star,
+.star.filled {
+    all: unset; /* Reset todos os estilos */
+    display: initial;
+}
+
+/* Garantindo que os estilos do RenderStars sejam aplicados */
+.selected-movie-info .stars-container {
+    display: flex;
+    gap: 0.75rem;
 }
 
 @keyframes resultAppear {
