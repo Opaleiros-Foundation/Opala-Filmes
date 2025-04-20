@@ -4,6 +4,10 @@
   background: var(--deep-space);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .movie-section::before {
@@ -31,19 +35,23 @@
     0 0 20px var(--neon-green-dim);
   margin-bottom: 2rem;
   letter-spacing: 2px;
+  width: 100%;
 }
 
 .movies-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem; /* Aumentado o gap */
+  gap: 3rem;
   padding: 2rem;
   max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  justify-content: center;
   box-sizing: border-box;
 }
 
 .empty-message {
+  width: 100%;
+  max-width: 600px;
   font-size: 1.5rem;
   color: var(--cosmic-white);
   text-align: center;
@@ -57,10 +65,11 @@
 }
 
 .movie-link {
-  flex: 0 0 calc(33.333% - 2rem); /* Ajustado para considerar o novo gap */
+  flex: 0 0 calc(33.333% - 2rem);
   text-decoration: none;
   transition: transform 0.3s ease;
-  max-width: 350px; /* Limitando a largura máxima */
+  max-width: 350px;
+  min-width: 280px;
 }
 
 .movie-link:hover {
@@ -69,7 +78,7 @@
 
 @media (max-width: 1200px) {
   .movie-link {
-    flex: 0 0 calc(50% - 1.5rem); /* 2 colunas */
+    flex: 0 0 calc(50% - 1.5rem);
   }
 }
 
@@ -106,12 +115,12 @@
     gap: 1.5rem;
   }
 
+  .movie-link {
+    flex: 0 0 100%;
+  }
+
   .empty-message {
     font-size: 1.25rem;
     padding: 2rem;
-  }
-
-  .movie-link {
-    flex: 0 0 100%; /* 1 coluna */
   }
 }
